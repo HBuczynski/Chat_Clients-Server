@@ -1,11 +1,21 @@
 package view;
 
+import java.awt.Color;
 import java.io.PrintWriter;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import view.Gui;
 
 /**
  * View consists components responsible for communication with user.
@@ -23,33 +33,70 @@ public class View {
 	
 	private void initializeComponents()
 	{
+		guiObjects_ = new Gui();
 		initializeMainWindow();
 		initializeLogDialog();
+		initializeLogComponents();
 	}
 	
 	private void initializeMainWindow()
 	{
-		mainFrame_ = new JFrame("Chatu-chatu");
-		mainFrame_.setSize(400, 500);
+		guiObjects_.mainFrame = new JFrame("Chatu-chatu");
+		guiObjects_.mainFrame.setSize(400, 500);
+		guiObjects_.mainFrame.setLocationRelativeTo(null);
+		guiObjects_.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	private void initializeLogDialog()
 	{
-		logFrame_ = new JFrame("Log Dialog");
-		logFrame_.setSize(450, 300);
+		guiObjects_.logFrame = new JFrame("Log Dialog");
+		guiObjects_.logFrame.setSize(350, 220);
+		guiObjects_.logFrame.setLocationRelativeTo(null);
+		guiObjects_.logFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Image icon = Toolkit.getDefaultToolkit().getImage("ClientsServer_Chat/src/view/images/icon.jpg");
+		guiObjects_.logFrame.setIconImage(icon);
+		
+		guiObjects_.logPanel = new JPanel();
+		guiObjects_.logPanel.setOpaque(true);
+		guiObjects_.logPanel.setBackground(Color.WHITE);
+		guiObjects_.logPanel.setLayout(null);
+		
+		guiObjects_.logFrame.setContentPane(guiObjects_.logPanel);
+	}
+	
+	private void initializeLogComponents()
+	{
+		guiObjects_.applyButton = new JButton("APPLY");
+		guiObjects_.applyButton.setBounds((guiObjects_.logFrame.getWidth() -136), (guiObjects_.logFrame.getHeight()- 94), 80, 25);
+		
+		guiObjects_.cancelButton = new JButton("CANCEL");
+		guiObjects_.cancelButton.setBounds((guiObjects_.logFrame.getWidth() -236), (guiObjects_.logFrame.getHeight()- 94), 80, 25);
+		
+		guiObjects_.usernameLabel = new JLabel("USERNAME");
+		guiObjects_.usernameLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+		guiObjects_.usernameLabel.setBounds((guiObjects_.logFrame.getWidth() -274), (guiObjects_.logFrame.getHeight()- 190), 180, 25);
+		
+		guiObjects_.usernameField = new JTextField("");
+		guiObjects_.usernameField.setFont(new Font("Serif", Font.PLAIN, 20));
+		guiObjects_.usernameField.setBounds((guiObjects_.logFrame.getWidth() -274), (guiObjects_.logFrame.getHeight()- 150), 220, 40);
+		
+		guiObjects_.logPanel.add(guiObjects_.applyButton);
+		guiObjects_.logPanel.add(guiObjects_.cancelButton);	
+		guiObjects_.logPanel.add(guiObjects_.usernameLabel);
+		guiObjects_.logPanel.add(guiObjects_.usernameField);
 	}
 	
 	public void showMainWindow()
 	{
-		mainFrame_.setVisible(true);
+		guiObjects_.mainFrame.setVisible(true);
 	}
 	
 	public void setVisibleLogDialog(boolean show)
 	{
-		logFrame_.setVisible(show);
+		guiObjects_.logFrame.setVisible(show);
 	}
 	
-	private JFrame mainFrame_;
-	private JFrame logFrame_;
+	private Gui guiObjects_;
 	
 }
