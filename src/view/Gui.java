@@ -6,6 +6,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+/**
+ * Gui consists all objects occurring in the interface.
+ * 
+ * @author HBuczynski
+ * @version 1.0
+ */
 
 public class Gui {
 	public JFrame mainFrame;

@@ -51,10 +51,11 @@ public class View {
 	{
 		guiObjects_.logFrame = new JFrame("Log Dialog");
 		guiObjects_.logFrame.setSize(350, 220);
+		guiObjects_.logFrame.setResizable(false);
 		guiObjects_.logFrame.setLocationRelativeTo(null);
 		guiObjects_.logFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		Image icon = Toolkit.getDefaultToolkit().getImage("ClientsServer_Chat/src/view/images/icon.jpg");
+		Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\view\\images\\icon.jpg");
 		guiObjects_.logFrame.setIconImage(icon);
 		
 		guiObjects_.logPanel = new JPanel();
@@ -68,18 +69,18 @@ public class View {
 	private void initializeLogComponents()
 	{
 		guiObjects_.applyButton = new JButton("APPLY");
-		guiObjects_.applyButton.setBounds((guiObjects_.logFrame.getWidth() -136), (guiObjects_.logFrame.getHeight()- 94), 80, 25);
+		guiObjects_.applyButton.setBounds((guiObjects_.logFrame.getWidth() -146), (guiObjects_.logFrame.getHeight()- 94), 80, 25);
 		
 		guiObjects_.cancelButton = new JButton("CANCEL");
-		guiObjects_.cancelButton.setBounds((guiObjects_.logFrame.getWidth() -236), (guiObjects_.logFrame.getHeight()- 94), 80, 25);
+		guiObjects_.cancelButton.setBounds((guiObjects_.logFrame.getWidth() -246), (guiObjects_.logFrame.getHeight()- 94), 80, 25);
 		
 		guiObjects_.usernameLabel = new JLabel("USERNAME");
-		guiObjects_.usernameLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-		guiObjects_.usernameLabel.setBounds((guiObjects_.logFrame.getWidth() -274), (guiObjects_.logFrame.getHeight()- 190), 180, 25);
+		guiObjects_.usernameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		guiObjects_.usernameLabel.setBounds((guiObjects_.logFrame.getWidth() -284), (guiObjects_.logFrame.getHeight()- 190), 180, 25);
 		
 		guiObjects_.usernameField = new JTextField("");
-		guiObjects_.usernameField.setFont(new Font("Serif", Font.PLAIN, 20));
-		guiObjects_.usernameField.setBounds((guiObjects_.logFrame.getWidth() -274), (guiObjects_.logFrame.getHeight()- 150), 220, 40);
+		guiObjects_.usernameField.setFont(new Font("Arial", Font.PLAIN, 20));
+		guiObjects_.usernameField.setBounds((guiObjects_.logFrame.getWidth() -284), (guiObjects_.logFrame.getHeight()- 150), 220, 40);
 		
 		guiObjects_.logPanel.add(guiObjects_.applyButton);
 		guiObjects_.logPanel.add(guiObjects_.cancelButton);	
