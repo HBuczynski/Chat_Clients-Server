@@ -2,19 +2,14 @@ package view;
 
 import java.awt.Color;
 import java.io.PrintWriter;
+import java.nio.file.attribute.UserPrincipalLookupService;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 import view.Gui;
 
 /**
@@ -28,7 +23,10 @@ public class View {
 	public View()
 	{
 		initializeComponents();
-		setVisibleLogDialog(true);
+		initializeNorthPanel();
+		initializeCenterPanel();
+		initializeEastPanel();
+		initializeSouthPanel();
 		showMainWindow();
 	}
 	
@@ -36,68 +34,88 @@ public class View {
 	{
 		guiObjects_ = new Gui();
 		initializeMainWindow();
-		initializeLogDialog();
-		initializeLogComponents();
 	}
 	
 	private void initializeMainWindow()
 	{
 		guiObjects_.mainFrame = new JFrame("Chatu-chatu");
-		guiObjects_.mainFrame.setSize(650, 700);
+		guiObjects_.mainFrame.setSize(800, 700);
 		guiObjects_.mainFrame.setLocationRelativeTo(null);
 		guiObjects_.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		guiObjects_.panel = new JPanel();
+		guiObjects_.panel.setOpaque(true);
+		guiObjects_.panel.setBackground(Color.WHITE);
+		guiObjects_.panel.setLayout(null);
+		
+		guiObjects_.mainFrame.setContentPane(guiObjects_.panel);
 	}
 	
-	private void initializeLogDialog()
+	private void initializeNorthPanel()
 	{
-		guiObjects_.logFrame = new JFrame("Log Dialog");
-		guiObjects_.logFrame.setSize(350, 220);
-		guiObjects_.logFrame.setResizable(false);
-		guiObjects_.logFrame.setLocationRelativeTo(null);
-		guiObjects_.logFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		guiObjects_.userLabel = new JLabel("USERNAME :");
+		guiObjects_.userLabel.setSize(100, 35);
+		guiObjects_.userLabel.setLocation(30, 25);
+		guiObjects_.userLabel.setFont(new Font("Arial", Font.PLAIN, 16));
 		
-		//TO DO
-		ImageIcon icon = new ImageIcon("\\view\\mages\\icon.jpg");
-		guiObjects_.logFrame.setIconImage(icon.getImage());
+		guiObjects_.usernameField = new JTextField(" ");
+		guiObjects_.usernameField.setSize(140, 30);
+		guiObjects_.usernameField.setLocation(130, 30);
 		
-		guiObjects_.logPanel = new JPanel();
-		guiObjects_.logPanel.setOpaque(true);
-		guiObjects_.logPanel.setBackground(Color.WHITE);
-		guiObjects_.logPanel.setLayout(null);
+		guiObjects_.connect = new JButton("CONNECT");
+		guiObjects_.connect.setSize(110, 30);
+		guiObjects_.connect.setLocation(300, 30);
 		
-		guiObjects_.logFrame.setContentPane(guiObjects_.logPanel);
+		guiObjects_.disconnect = new JButton("DISCONNECT");
+		guiObjects_.disconnect.setSize(110, 30);
+		guiObjects_.disconnect.setLocation(450, 30);
+		
+		guiObjects_.onlineUsers = new JLabel("Online Users");
+		guiObjects_.onlineUsers.setSize(100, 35);
+		guiObjects_.onlineUsers.setLocation(620, 30);
+		guiObjects_.onlineUsers.setFont(new Font("Arial", Font.PLAIN, 16));
+		
+		guiObjects_.panel.add(guiObjects_.userLabel);
+		guiObjects_.panel.add(guiObjects_.usernameField);
+		guiObjects_.panel.add(guiObjects_.connect);
+		guiObjects_.panel.add(guiObjects_.disconnect);
+		guiObjects_.panel.add(guiObjects_.onlineUsers);
 	}
 	
-	private void initializeLogComponents()
+	private void initializeCenterPanel()
 	{
-		guiObjects_.applyButton = new JButton("APPLY");
-		guiObjects_.applyButton.setBounds((guiObjects_.logFrame.getWidth() -146), (guiObjects_.logFrame.getHeight()- 94), 80, 25);
+		guiObjects_.conversationArea = new JTextArea();
+		guiObjects_.conversationArea.setLineWrap(true);
+		guiObjects_.conversationArea.setBounds(90, 90, 500, 400);
+		guiObjects_.conversationArea.setText("siemanolo");
+		guiObjects_.conversationArea.setBackground(Color.BLUE);
+		guiObjects_.conversationArea.setEditable(true);
+		guiObjects_.conversationArea.setVisible(true);
+		guiObjects_.conversationArea.setOpaque(false);
+		guiObjects_.conversationArea.setForeground(Color.white);
+		guiObjects_.conversationArea.setCaretColor(Color.red);
 		
-		guiObjects_.cancelButton = new JButton("CANCEL");
-		guiObjects_.cancelButton.setBounds((guiObjects_.logFrame.getWidth() -246), (guiObjects_.logFrame.getHeight()- 94), 80, 25);
-		
-		guiObjects_.usernameLabel = new JLabel("USERNAME");
-		guiObjects_.usernameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-		guiObjects_.usernameLabel.setBounds((guiObjects_.logFrame.getWidth() -284), (guiObjects_.logFrame.getHeight()- 190), 180, 25);
-		
-		guiObjects_.usernameField = new JTextField("");
-		guiObjects_.usernameField.setFont(new Font("Arial", Font.PLAIN, 20));
-		guiObjects_.usernameField.setBounds((guiObjects_.logFrame.getWidth() -284), (guiObjects_.logFrame.getHeight()- 150), 220, 40);
-		
-		guiObjects_.logPanel.add(guiObjects_.applyButton);
-		guiObjects_.logPanel.add(guiObjects_.cancelButton);	
-		guiObjects_.logPanel.add(guiObjects_.usernameLabel);
-		guiObjects_.logPanel.add(guiObjects_.usernameField);
+		guiObjects_.panel.add(guiObjects_.conversationArea);
 	}
 	
+	private void initializeEastPanel()
+	{
+		
+	}
+	
+	private void initializeSouthPanel()
+	{
+		guiObjects_.send = new JButton("SEND");
+		guiObjects_.send.setSize(110, 30);
+		guiObjects_.send.setLocation(450, 590);
+		
+		guiObjects_.panel.add(guiObjects_.send);
+		
+	}
+			
 	public void showMainWindow()
 	{
 		guiObjects_.mainFrame.setVisible(true);
-	}
-	
-	public void setVisibleLogDialog(boolean show)
-	{
-		guiObjects_.logFrame.setVisible(show);
 	}
 	
 	private Gui guiObjects_;
