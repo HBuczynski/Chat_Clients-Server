@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 import javax.swing.*;
-import javax.swing.JTextArea;
 
 import view.Gui;
 
@@ -23,10 +22,6 @@ public class View {
 	public View()
 	{
 		initializeComponents();
-		initializeNorthPanel();
-		initializeCenterPanel();
-		initializeEastPanel();
-		initializeSouthPanel();
 		showMainWindow();
 	}
 	
@@ -34,6 +29,10 @@ public class View {
 	{
 		guiObjects_ = new Gui();
 		initializeMainWindow();
+		initializeNorthPanel();
+		initializeCenterPanel();
+		initializeEastPanel();
+		initializeSouthPanel();
 	}
 	
 	private void initializeMainWindow()
@@ -45,7 +44,7 @@ public class View {
 		
 		guiObjects_.panel = new JPanel();
 		guiObjects_.panel.setOpaque(true);
-		guiObjects_.panel.setBackground(Color.WHITE);
+		guiObjects_.panel.setBackground(Color.lightGray);
 		guiObjects_.panel.setLayout(null);
 		
 		guiObjects_.mainFrame.setContentPane(guiObjects_.panel);
@@ -54,26 +53,27 @@ public class View {
 	private void initializeNorthPanel()
 	{
 		guiObjects_.userLabel = new JLabel("USERNAME :");
-		guiObjects_.userLabel.setSize(100, 35);
+		guiObjects_.userLabel.setSize(120, 35);
 		guiObjects_.userLabel.setLocation(30, 25);
-		guiObjects_.userLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+		guiObjects_.userLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		
 		guiObjects_.usernameField = new JTextField(" ");
 		guiObjects_.usernameField.setSize(140, 30);
-		guiObjects_.usernameField.setLocation(130, 30);
+		guiObjects_.usernameField.setLocation(140, 30);
+		guiObjects_.usernameField.setFont(new Font("Arial", Font.PLAIN, 16));
 		
 		guiObjects_.connect = new JButton("CONNECT");
 		guiObjects_.connect.setSize(110, 30);
-		guiObjects_.connect.setLocation(300, 30);
+		guiObjects_.connect.setLocation(320, 30);
 		
 		guiObjects_.disconnect = new JButton("DISCONNECT");
 		guiObjects_.disconnect.setSize(110, 30);
-		guiObjects_.disconnect.setLocation(450, 30);
+		guiObjects_.disconnect.setLocation(445, 30);
 		
-		guiObjects_.onlineUsers = new JLabel("Online Users");
-		guiObjects_.onlineUsers.setSize(100, 35);
-		guiObjects_.onlineUsers.setLocation(620, 30);
-		guiObjects_.onlineUsers.setFont(new Font("Arial", Font.PLAIN, 16));
+		guiObjects_.onlineUsers = new JLabel("ONLINE USERS");
+		guiObjects_.onlineUsers.setSize(140, 35);
+		guiObjects_.onlineUsers.setLocation(600, 30);
+		guiObjects_.onlineUsers.setFont(new Font("Arial", Font.BOLD, 16));
 		
 		guiObjects_.panel.add(guiObjects_.userLabel);
 		guiObjects_.panel.add(guiObjects_.usernameField);
@@ -86,29 +86,41 @@ public class View {
 	{
 		guiObjects_.conversationArea = new JTextArea();
 		guiObjects_.conversationArea.setLineWrap(true);
-		guiObjects_.conversationArea.setBounds(90, 90, 500, 400);
-		guiObjects_.conversationArea.setText("siemanolo");
-		guiObjects_.conversationArea.setBackground(Color.BLUE);
-		guiObjects_.conversationArea.setEditable(true);
-		guiObjects_.conversationArea.setVisible(true);
-		guiObjects_.conversationArea.setOpaque(false);
-		guiObjects_.conversationArea.setForeground(Color.white);
-		guiObjects_.conversationArea.setCaretColor(Color.red);
+		guiObjects_.conversationArea.setBounds(30, 70, 525, 350);
+		guiObjects_.conversationArea.setText(" >> ");
+		guiObjects_.conversationArea.setEditable(false);
+		guiObjects_.conversationArea.setFont(new Font("Arial", Font.PLAIN, 16));
+		guiObjects_.conversationArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		guiObjects_.panel.add(guiObjects_.conversationArea);
 	}
 	
 	private void initializeEastPanel()
 	{
-		
+		guiObjects_.userArea = new JTextArea();
+		guiObjects_.userArea.setLineWrap(true);
+		guiObjects_.userArea.setBounds(580, 70, 180, 350);
+		guiObjects_.userArea.setEditable(false);
+		guiObjects_.userArea.setFont(new Font("Arial", Font.PLAIN, 16));
+		guiObjects_.userArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				
+		guiObjects_.panel.add(guiObjects_.userArea);
 	}
 	
 	private void initializeSouthPanel()
 	{
 		guiObjects_.send = new JButton("SEND");
 		guiObjects_.send.setSize(110, 30);
-		guiObjects_.send.setLocation(450, 590);
+		guiObjects_.send.setLocation(650, 605);
 		
+		guiObjects_.sendArea = new JTextArea();
+		guiObjects_.sendArea.setLineWrap(true);
+		guiObjects_.sendArea.setBounds(30, 435, 730, 150);
+		guiObjects_.sendArea.setEditable(true);
+		guiObjects_.sendArea.setFont(new Font("Arial", Font.PLAIN, 16));
+		guiObjects_.sendArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		guiObjects_.panel.add( guiObjects_.sendArea);
 		guiObjects_.panel.add(guiObjects_.send);
 		
 	}
