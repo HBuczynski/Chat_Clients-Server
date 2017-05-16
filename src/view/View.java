@@ -29,6 +29,7 @@ public class View {
 	{
 		initializeComponents();
 		setVisibleLogDialog(true);
+		showMainWindow();
 	}
 	
 	private void initializeComponents()
@@ -42,7 +43,7 @@ public class View {
 	private void initializeMainWindow()
 	{
 		guiObjects_.mainFrame = new JFrame("Chatu-chatu");
-		guiObjects_.mainFrame.setSize(400, 500);
+		guiObjects_.mainFrame.setSize(650, 700);
 		guiObjects_.mainFrame.setLocationRelativeTo(null);
 		guiObjects_.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -55,8 +56,9 @@ public class View {
 		guiObjects_.logFrame.setLocationRelativeTo(null);
 		guiObjects_.logFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\view\\images\\icon.jpg");
-		guiObjects_.logFrame.setIconImage(icon);
+		//TO DO
+		ImageIcon icon = new ImageIcon("\\view\\mages\\icon.jpg");
+		guiObjects_.logFrame.setIconImage(icon.getImage());
 		
 		guiObjects_.logPanel = new JPanel();
 		guiObjects_.logPanel.setOpaque(true);
