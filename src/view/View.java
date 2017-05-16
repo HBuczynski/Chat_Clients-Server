@@ -86,25 +86,29 @@ public class View {
 	{
 		guiObjects_.conversationArea = new JTextArea();
 		guiObjects_.conversationArea.setLineWrap(true);
-		guiObjects_.conversationArea.setBounds(30, 70, 525, 350);
 		guiObjects_.conversationArea.setText(" >> ");
 		guiObjects_.conversationArea.setEditable(false);
 		guiObjects_.conversationArea.setFont(new Font("Arial", Font.PLAIN, 16));
 		guiObjects_.conversationArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
-		guiObjects_.panel.add(guiObjects_.conversationArea);
+		guiObjects_.conversationScroll = new JScrollPane(guiObjects_.conversationArea);
+		guiObjects_.conversationScroll.setBounds(30, 70, 525, 350);
+		
+		guiObjects_.panel.add(guiObjects_.conversationScroll);
 	}
 	
 	private void initializeEastPanel()
 	{
 		guiObjects_.userArea = new JTextArea();
 		guiObjects_.userArea.setLineWrap(true);
-		guiObjects_.userArea.setBounds(580, 70, 180, 350);
 		guiObjects_.userArea.setEditable(false);
 		guiObjects_.userArea.setFont(new Font("Arial", Font.PLAIN, 16));
 		guiObjects_.userArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		guiObjects_.userScroll = new JScrollPane(guiObjects_.userArea);
+		guiObjects_.userScroll.setBounds(580, 70, 180, 350);
 				
-		guiObjects_.panel.add(guiObjects_.userArea);
+		guiObjects_.panel.add(guiObjects_.userScroll);
 	}
 	
 	private void initializeSouthPanel()
@@ -115,12 +119,14 @@ public class View {
 		
 		guiObjects_.sendArea = new JTextArea();
 		guiObjects_.sendArea.setLineWrap(true);
-		guiObjects_.sendArea.setBounds(30, 435, 730, 150);
 		guiObjects_.sendArea.setEditable(true);
 		guiObjects_.sendArea.setFont(new Font("Arial", Font.PLAIN, 16));
 		guiObjects_.sendArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
-		guiObjects_.panel.add( guiObjects_.sendArea);
+		guiObjects_.sendScroll = new JScrollPane(guiObjects_.sendArea);
+		guiObjects_.sendScroll.setBounds(30, 435, 730, 150);
+
+		guiObjects_.panel.add(guiObjects_.sendScroll);
 		guiObjects_.panel.add(guiObjects_.send);
 		
 	}

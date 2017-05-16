@@ -3,6 +3,7 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -28,4 +29,8 @@ public class Gui {
 	public JTextArea conversationArea;
 	public JTextArea userArea;
 	public JTextArea sendArea;
+	
+	public JScrollPane sendScroll;
+	public JScrollPane userScroll;
+	public JScrollPane conversationScroll;
 }
