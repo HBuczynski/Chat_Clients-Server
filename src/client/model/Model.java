@@ -9,5 +9,14 @@ package client.model;
  */
 
 public class Model {
+	
+	public Model()
+	{
+		
+	}
 
+	public void redirectMessageToServer(String message)
+	{
+		
+	}
 }

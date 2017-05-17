@@ -31,6 +31,7 @@ public class View {
 	private void initializeComponents()
 	{
 		guiObjects_ = new Gui();
+		connectionIsEstablished = false;
 		
 		initializeMainWindow();
 		initializeNorthPanel();
@@ -69,8 +70,8 @@ public class View {
 		guiObjects_.userLabel.setLocation(30, 25);
 		guiObjects_.userLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		
-		guiObjects_.usernameField = new JTextField(" ");
-		guiObjects_.usernameField.setSize(140, 30);
+		guiObjects_.usernameField = new JTextField();
+		guiObjects_.usernameField.setSize(160, 30);
 		guiObjects_.usernameField.setLocation(140, 30);
 		guiObjects_.usernameField.setFont(new Font("Arial", Font.PLAIN, 16));
 		
@@ -107,8 +108,6 @@ public class View {
 	private void initializeEastPanel()
 	{
 		guiObjects_.userArea = new JTextArea();
-		
-		
 		guiObjects_.userArea.setLineWrap(true);
 		guiObjects_.userArea.setEditable(false);
 		guiObjects_.userArea.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -125,8 +124,8 @@ public class View {
 	private void initializeSouthPanel()
 	{
 		guiObjects_.send = new JButton("SEND");
-		guiObjects_.send.setSize(110, 30);
-		guiObjects_.send.setLocation(650, 605);
+		guiObjects_.send.setSize(110, 27);
+		guiObjects_.send.setLocation(650, 618);
 		
 		guiObjects_.sendArea = new JTextArea();
 		guiObjects_.sendArea.setLineWrap(true);
@@ -135,11 +134,10 @@ public class View {
 		guiObjects_.sendArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		guiObjects_.sendScroll = new JScrollPane(guiObjects_.sendArea);
-		guiObjects_.sendScroll.setBounds(30, 435, 730, 150);
+		guiObjects_.sendScroll.setBounds(30, 435, 730, 180);
 
 		guiObjects_.panel.add(guiObjects_.sendScroll);
 		guiObjects_.panel.add(guiObjects_.send);
-		
 	}
 	
 	private void addNewConversationTab(String userName)
@@ -152,6 +150,61 @@ public class View {
 		guiObjects_.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		guiObjects_.conversations.addTab(userName, new JScrollPane(guiObjects_.conversationMap.get(userName)));
+	}
+	
+	public String getMessage()
+	{
+		return guiObjects_.sendArea.getText();
+	}
+	
+	public void setAppendMessage(String message, String user)
+	{
+		if(connectionIsEstablished)
+		{
+			if(user.equals(username))
+			{
+				int index = guiObjects_.conversations.getSelectedIndex();
+				String name = guiObjects_.conversations.getTabComponentAt(index).getName();
+				//guiObjects_.conversationMap.get(name).setText(" >> " + user);
+				//guiObjects_.conversationMap.get(name).setText("\t" + message);
+			}			
+			else
+			{
+				guiObjects_.conversationMap.get("Server").append(" >> " + user +"\n");
+				guiObjects_.conversationMap.get("Server").append(message + "\n");
+			}
+		}
+		else
+		{
+			setTextMessage(" >> Connection is not established. "+ "\n >>  Please write your username and push the connect button.");
+		}
+	}
+	
+	public void setTextMessage(String message)
+	{
+		guiObjects_.conversationMap.get("Server").setText(message);
+	}
+	
+	public void clearUserArea()
+	{
+		guiObjects_.userArea.setText(" ");
+	}
+	
+	public String getUsername()
+	{
+		return guiObjects_.usernameField.getText();
+	}
+	
+	public void setUsername()
+	{
+		username = getUsername();
+		guiObjects_.usernameField.setEditable(false);
+		connectionIsEstablished = true;
+	}
+			
+	public void showMainWindow()
+	{
+		guiObjects_.mainFrame.setVisible(true);
 	}
 	
 	private void endConversationButton()
@@ -171,26 +224,23 @@ public class View {
 		});
 	}
 	
-	public String getMessage()
-	{
-		return guiObjects_.sendArea.getText();
-	}
-	
-	public String getUsername()
-	{
-		return guiObjects_.userArea.getText();
-	}
-			
-	public void showMainWindow()
-	{
-		guiObjects_.mainFrame.setVisible(true);
-	}
-	
-	public void addSendButtonListener(ActionListener listenForSendButton)
+	public void sendButtonListener(ActionListener listenForSendButton)
 	{
 		guiObjects_.send.addActionListener(listenForSendButton);
 	}
 	
+	public void connectButtonListener(ActionListener act)
+	{
+		guiObjects_.connect.addActionListener(act);
+	}
+	
+	public void disconnectButtonListener(ActionListener act)
+	{
+		guiObjects_.connect.addActionListener(act);
+	}
+	
 	private Gui guiObjects_;
+	private boolean connectionIsEstablished;
+	private String username;
 	
 }

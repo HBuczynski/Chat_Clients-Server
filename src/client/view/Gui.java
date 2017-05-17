@@ -21,6 +21,7 @@ import client.view.*;
  */
 
 public class Gui {
+	
 	public JFrame mainFrame;
 	public JLabel userLabel;
 	public JLabel onlineUsers;
