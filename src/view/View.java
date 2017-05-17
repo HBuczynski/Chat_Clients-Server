@@ -9,6 +9,8 @@ import java.util.Map;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -107,7 +109,7 @@ public class View {
 	private void initializeEastPanel()
 	{
 		guiObjects_.userArea = new JTextArea();
-		guiObjects_.endConversation = new JButton("END CONVERSATION");
+		
 		
 		guiObjects_.userArea.setLineWrap(true);
 		guiObjects_.userArea.setEditable(false);
@@ -116,11 +118,10 @@ public class View {
 		guiObjects_.userScroll = new JScrollPane(guiObjects_.userArea);
 		guiObjects_.userScroll.setBounds(580, 90, 180, 290);
 		
-		guiObjects_.endConversation.setSize(180,30);
-		guiObjects_.endConversation.setLocation(580, 390);
-				
+		endConversationButton();
+					
 		guiObjects_.panel.add(guiObjects_.userScroll);
-		guiObjects_.panel.add(guiObjects_.endConversation);
+		
 	}
 	
 	private void initializeSouthPanel()
@@ -153,6 +154,23 @@ public class View {
 		guiObjects_.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		guiObjects_.conversations.addTab(userName, new JScrollPane(guiObjects_.conversationMap.get(userName)));
+	}
+	
+	private void endConversationButton()
+	{
+		guiObjects_.endConversation = new JButton("END CONVERSATION");
+		guiObjects_.endConversation.setSize(180,30);
+		guiObjects_.endConversation.setLocation(580, 390);
+		guiObjects_.panel.add(guiObjects_.endConversation);
+		
+		guiObjects_.endConversation.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if(guiObjects_.conversations.getSelectedIndex() != guiObjects_.conversations.indexOfTab("Server"))
+					guiObjects_.conversations.remove(guiObjects_.conversations.getSelectedIndex());
+			}
+		});
 	}
 			
 	public void showMainWindow()
