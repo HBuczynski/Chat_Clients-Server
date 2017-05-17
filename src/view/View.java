@@ -172,10 +172,25 @@ public class View {
 			}
 		});
 	}
+	
+	public String getMessage()
+	{
+		return guiObjects_.sendArea.getText();
+	}
+	
+	public String getUsername()
+	{
+		return guiObjects_.userArea.getText();
+	}
 			
 	public void showMainWindow()
 	{
 		guiObjects_.mainFrame.setVisible(true);
+	}
+	
+	public void addSendButtonListener(ActionListener listenForSendButton)
+	{
+		guiObjects_.send.addActionListener(listenForSendButton);
 	}
 	
 	private Gui guiObjects_;
