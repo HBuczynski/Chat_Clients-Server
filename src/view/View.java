@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.PrintWriter;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.HashMap;
@@ -48,6 +49,10 @@ public class View {
 		guiObjects_.mainFrame.setSize(800, 700);
 		guiObjects_.mainFrame.setLocationRelativeTo(null);
 		guiObjects_.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//System.out.println(new File("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\view\\images").exists());
+		ImageIcon icon = new ImageIcon("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\view\\images");
+		guiObjects_.mainFrame.setIconImage(icon.getImage());
 		
 		guiObjects_.panel = new JPanel();
 		guiObjects_.panel.setOpaque(true);
