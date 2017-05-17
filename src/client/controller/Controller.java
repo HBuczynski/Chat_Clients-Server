@@ -41,7 +41,7 @@ public class Controller
 	
 	class ConnectButton implements ActionListener{
 		 public void actionPerformed(ActionEvent e) {
-			 if(!(view_.getUsername().contains(" ")))
+			 if(!(view_.getUsername().contains(" ") || view_.getUsername().length() == 0))
 			 {
 				view_.setUsername();
 				 //TO DO
