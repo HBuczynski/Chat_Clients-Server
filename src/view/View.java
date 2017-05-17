@@ -17,6 +17,9 @@ import view.Gui;
  * @author HBuczynski
  * @version 1.0
  */
+
+//TO DO
+// add list of tabs
 public class View {
 	
 	public View()
@@ -33,6 +36,8 @@ public class View {
 		initializeCenterPanel();
 		initializeEastPanel();
 		initializeSouthPanel();
+		
+		addNewConversationTab("kazik");
 	}
 	
 	private void initializeMainWindow()
@@ -92,9 +97,12 @@ public class View {
 		guiObjects_.conversationArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		guiObjects_.conversationScroll = new JScrollPane(guiObjects_.conversationArea);
-		guiObjects_.conversationScroll.setBounds(30, 70, 525, 350);
 		
-		guiObjects_.panel.add(guiObjects_.conversationScroll);
+		guiObjects_.conversations = new JTabbedPane();
+		guiObjects_.conversations.addTab("Server", guiObjects_.conversationScroll);
+		guiObjects_.conversations.setBounds(30, 70, 525, 350);
+		
+		guiObjects_.panel.add(guiObjects_.conversations);
 	}
 	
 	private void initializeEastPanel()
@@ -129,6 +137,11 @@ public class View {
 		guiObjects_.panel.add(guiObjects_.sendScroll);
 		guiObjects_.panel.add(guiObjects_.send);
 		
+	}
+	
+	private void addNewConversationTab(String userName)
+	{
+		guiObjects_.conversations.addTab(userName, new JTextArea());
 	}
 			
 	public void showMainWindow()

@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ public class Gui {
 	public JButton disconnect;
 	public JButton send;
 	
+	public JTabbedPane conversations;
 	public JTextArea conversationArea;
 	public JTextArea userArea;
 	public JTextArea sendArea;
