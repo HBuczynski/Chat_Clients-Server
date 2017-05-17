@@ -31,12 +31,14 @@ public class View {
 	private void initializeComponents()
 	{
 		guiObjects_ = new Gui();
+		
 		initializeMainWindow();
 		initializeNorthPanel();
 		initializeCenterPanel();
 		initializeEastPanel();
 		initializeSouthPanel();
 		
+		//test
 		addNewConversationTab("Kazik");
 	}
 	
@@ -100,15 +102,20 @@ public class View {
 	private void initializeEastPanel()
 	{
 		guiObjects_.userArea = new JTextArea();
+		guiObjects_.endConversation = new JButton("END CONVERSATION");
+		
 		guiObjects_.userArea.setLineWrap(true);
 		guiObjects_.userArea.setEditable(false);
 		guiObjects_.userArea.setFont(new Font("Arial", Font.PLAIN, 16));
 		guiObjects_.userArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
 		guiObjects_.userScroll = new JScrollPane(guiObjects_.userArea);
-		guiObjects_.userScroll.setBounds(580, 90, 180, 330);
+		guiObjects_.userScroll.setBounds(580, 90, 180, 290);
+		
+		guiObjects_.endConversation.setSize(180,30);
+		guiObjects_.endConversation.setLocation(580, 390);
 				
 		guiObjects_.panel.add(guiObjects_.userScroll);
+		guiObjects_.panel.add(guiObjects_.endConversation);
 	}
 	
 	private void initializeSouthPanel()
@@ -136,6 +143,7 @@ public class View {
 		guiObjects_.conversationMap.put(userName, new JTextArea());
 		guiObjects_.conversationMap.get(userName).setLineWrap(true);
 		guiObjects_.conversationMap.get(userName).setText(" >> ");
+		guiObjects_.conversationMap.get(userName).setEditable(false);
 		guiObjects_.conversationMap.get(userName).setFont(new Font("Arial", Font.PLAIN, 16));
 		guiObjects_.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		

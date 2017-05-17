@@ -29,6 +29,7 @@ public class Gui {
 	public JButton connect;
 	public JButton disconnect;
 	public JButton send;
+	public JButton endConversation;
 	
 	public JTabbedPane conversations;
 	public JTextArea conversationArea;
