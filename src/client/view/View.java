@@ -144,7 +144,8 @@ public class View {
 	{	
 		guiObjects_.conversationMap.put(userName, new JTextArea());
 		guiObjects_.conversationMap.get(userName).setLineWrap(true);
-		guiObjects_.conversationMap.get(userName).setText(" >> ");
+		if(userName.equals("Server"))
+				guiObjects_.conversationMap.get(userName).setText(" >> ");
 		guiObjects_.conversationMap.get(userName).setEditable(false);
 		guiObjects_.conversationMap.get(userName).setFont(new Font("Arial", Font.PLAIN, 16));
 		guiObjects_.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -159,20 +160,24 @@ public class View {
 	
 	public void setAppendMessage(String message, String user)
 	{
-		if(connectionIsEstablished)
+		if(connectionIsEstablished && guiObjects_.conversations.getSelectedIndex() !=0)
 		{
 			if(user.equals(username))
 			{
 				int index = guiObjects_.conversations.getSelectedIndex();
-				String name = guiObjects_.conversations.getTabComponentAt(index).getName();
-				//guiObjects_.conversationMap.get(name).setText(" >> " + user);
-				//guiObjects_.conversationMap.get(name).setText("\t" + message);
+				String name = new String(guiObjects_.conversations.getTitleAt(index));
+				guiObjects_.conversationMap.get(name).append(" >> " + user + "\n");
+				guiObjects_.conversationMap.get(name).append(message + "\n");
 			}			
 			else
 			{
-				guiObjects_.conversationMap.get("Server").append(" >> " + user +"\n");
-				guiObjects_.conversationMap.get("Server").append(message + "\n");
+				guiObjects_.conversationMap.get(user).append(" >> " + user +"\n");
+				guiObjects_.conversationMap.get(user).append(message + "\n");
 			}
+		}
+		else if (guiObjects_.conversations.getSelectedIndex() == 0)
+		{
+			guiObjects_.conversationMap.get("Server").append(" >> " + " Oh my dear, you cannot write with server !" + "\n");
 		}
 		else
 		{
@@ -187,7 +192,7 @@ public class View {
 	
 	public void clearUserArea()
 	{
-		guiObjects_.userArea.setText(" ");
+		guiObjects_.sendArea.setText("");
 	}
 	
 	public String getUsername()

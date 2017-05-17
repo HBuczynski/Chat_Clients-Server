@@ -46,7 +46,7 @@ public class Controller
 				view_.setUsername();
 				 //TO DO
 				 // Connection with server
-				view_.setTextMessage(" >> Connection with " + view_.getUsername() + " was established.");
+				view_.setTextMessage(" >> Connection with " + view_.getUsername() + " was established :)\n");
 			 }
 			 else
 			 {
