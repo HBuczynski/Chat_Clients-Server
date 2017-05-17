@@ -26,6 +26,7 @@ public class Server extends JFrame
 	{
 		initializeMainWindow();
 		initializeComponents();
+		initializeMessage();
 	}
 	
 	public void makeWindowVisible()
@@ -35,7 +36,7 @@ public class Server extends JFrame
 	
 	private void initializeMainWindow()
 	{
-		this.setTitle("Server");
+		this.setTitle("Server Output");
 		this.setSize(500, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -56,14 +57,35 @@ public class Server extends JFrame
 		textArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			
 		scroll = new JScrollPane(textArea);
-		scroll.setBounds(1, 1, 479, 750);
+		scroll.setBounds(1, 2, 479, 750);
 		
 		panel.add(scroll);
+	}
+	
+	private void initializeMessage()
+	{
+		addMessage("Initialization has been successful.");
+		addMessage("Waiting on users ...");
+		addMessage(" ");
 	}
 	
 	private void addMessage(String message)
 	{
 		textArea.append(" >> " + message + "\n");
 	}
+	
+	public void run()
+	{
+		
+	}
+	
+	public void sendMessageToClient()
+	{
+		
+	}
 
+	public void getMessageFromClient()
+	{
+		
+	}
 }
