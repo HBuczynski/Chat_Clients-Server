@@ -1,20 +1,17 @@
-package view;
+package client.view;
 
 import java.awt.Color;
 import java.io.File;
-import java.io.PrintWriter;
-import java.nio.file.attribute.UserPrincipalLookupService;
+
 import java.util.HashMap;
-import java.util.Map;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import view.Gui;
+import client.view.Gui;
+
 
 /**
  * View consists components responsible for communication with user.
@@ -52,8 +49,9 @@ public class View {
 		guiObjects_.mainFrame.setLocationRelativeTo(null);
 		guiObjects_.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//System.out.println(new File("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\view\\images").exists());
-		ImageIcon icon = new ImageIcon("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\view\\images");
+		//TO DO - make icon visible
+		//System.out.println(new File("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\client\\view\\images\\icon.jpg").exists());
+		ImageIcon icon = new ImageIcon("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\client\\view\\images\\icon.jpg");
 		guiObjects_.mainFrame.setIconImage(icon.getImage());
 		
 		guiObjects_.panel = new JPanel();

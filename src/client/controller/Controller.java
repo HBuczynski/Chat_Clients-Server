@@ -1,9 +1,9 @@
-package controller;
+package client.controller;
 
 import java.awt.event.ActionListener;
 
-import model.Model;
-import view.View;
+import client.model.Model;
+import client.view.View;
 
 /**
  * Controller manages a connection between model and view.

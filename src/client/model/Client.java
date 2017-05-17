@@ -1,4 +1,6 @@
-package model;
+package client.model;
+
+import client.model.*;
 
 /**
  *Client represents a user who sends the message to the server.

@@ -1,4 +1,4 @@
-package model;
+package server;
 
 /**
  * Server manages connections between users. This part of application is responsible for authorized users and redirection

@@ -1,4 +1,4 @@
-package model;
+package client.model;
 
 /**
  * Model is a back-end of application.Its duties include connection with server and gathering
