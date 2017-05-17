@@ -7,6 +7,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import java.util.*;
+
 import javax.swing.JButton;
 
 /**
@@ -35,4 +38,7 @@ public class Gui {
 	public JScrollPane sendScroll;
 	public JScrollPane userScroll;
 	public JScrollPane conversationScroll;
+	
+	public Map<String, JTextArea> conversationMap;
+	
 }

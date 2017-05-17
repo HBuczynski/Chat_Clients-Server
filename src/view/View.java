@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.io.PrintWriter;
 import java.nio.file.attribute.UserPrincipalLookupService;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -18,8 +20,6 @@ import view.Gui;
  * @version 1.0
  */
 
-//TO DO
-// add list of tabs
 public class View {
 	
 	public View()
@@ -37,7 +37,7 @@ public class View {
 		initializeEastPanel();
 		initializeSouthPanel();
 		
-		addNewConversationTab("kazik");
+		addNewConversationTab("Kazik");
 	}
 	
 	private void initializeMainWindow()
@@ -77,7 +77,7 @@ public class View {
 		
 		guiObjects_.onlineUsers = new JLabel("ONLINE USERS");
 		guiObjects_.onlineUsers.setSize(140, 35);
-		guiObjects_.onlineUsers.setLocation(600, 30);
+		guiObjects_.onlineUsers.setLocation(610, 60);
 		guiObjects_.onlineUsers.setFont(new Font("Arial", Font.BOLD, 16));
 		
 		guiObjects_.panel.add(guiObjects_.userLabel);
@@ -89,18 +89,10 @@ public class View {
 	
 	private void initializeCenterPanel()
 	{
-		guiObjects_.conversationArea = new JTextArea();
-		guiObjects_.conversationArea.setLineWrap(true);
-		guiObjects_.conversationArea.setText(" >> ");
-		guiObjects_.conversationArea.setEditable(false);
-		guiObjects_.conversationArea.setFont(new Font("Arial", Font.PLAIN, 16));
-		guiObjects_.conversationArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
-		guiObjects_.conversationScroll = new JScrollPane(guiObjects_.conversationArea);
-		
 		guiObjects_.conversations = new JTabbedPane();
-		guiObjects_.conversations.addTab("Server", guiObjects_.conversationScroll);
+		guiObjects_.conversationMap = new HashMap<String, JTextArea>();
 		guiObjects_.conversations.setBounds(30, 70, 525, 350);
+		addNewConversationTab("Server");
 		
 		guiObjects_.panel.add(guiObjects_.conversations);
 	}
@@ -114,7 +106,7 @@ public class View {
 		guiObjects_.userArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		guiObjects_.userScroll = new JScrollPane(guiObjects_.userArea);
-		guiObjects_.userScroll.setBounds(580, 70, 180, 350);
+		guiObjects_.userScroll.setBounds(580, 90, 180, 330);
 				
 		guiObjects_.panel.add(guiObjects_.userScroll);
 	}
@@ -140,8 +132,14 @@ public class View {
 	}
 	
 	private void addNewConversationTab(String userName)
-	{
-		guiObjects_.conversations.addTab(userName, new JTextArea());
+	{	
+		guiObjects_.conversationMap.put(userName, new JTextArea());
+		guiObjects_.conversationMap.get(userName).setLineWrap(true);
+		guiObjects_.conversationMap.get(userName).setText(" >> ");
+		guiObjects_.conversationMap.get(userName).setFont(new Font("Arial", Font.PLAIN, 16));
+		guiObjects_.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		guiObjects_.conversations.addTab(userName, new JScrollPane(guiObjects_.conversationMap.get(userName)));
 	}
 			
 	public void showMainWindow()
