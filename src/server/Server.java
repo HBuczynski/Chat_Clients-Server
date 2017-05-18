@@ -3,6 +3,7 @@ package server;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
@@ -38,9 +39,9 @@ public class Server
 		run = true;
 	}
 		
-	public void run()
+	public void enable()
 	{
-		portNumber = 2222;
+		portNumber = 8000;
 		
 		try 
 		{
@@ -48,23 +49,26 @@ public class Server
 		} 
 		catch (IOException e) 
 		{
-		     System.out.println(e);
+			gui_.addMessage(e.toString());
 		}
 		
 		// Create a client socket for each connection and pass it to a new client
 	    // thread.
 		
 		while (run) 
-		{
+		{ 
 			try
-			{
+			{ 
 				clientSocket = serverSocket.accept();
-		      
 				threads.add(new ClientThread(clientSocket, threads));
 		        threads.lastElement().start();
 		        
-		      } catch (IOException e) {
-		        System.out.println(e);
+		    } 
+			catch (IOException e) 
+			{
+		        gui_.addMessage(e.toString()); 
+		        gui_.addMessage("lolo");
+		        
 		      }
 		    
 		 }

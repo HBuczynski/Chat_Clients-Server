@@ -63,7 +63,7 @@ public class GuiServerCreator extends JFrame
 		addMessage(" ");
 	}
 	
-	private void addMessage(String message)
+	public void addMessage(String message)
 	{
 		textArea.append(" >> " + message + "\n");
 	}

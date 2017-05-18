@@ -27,12 +27,12 @@ public class Client implements Runnable
 	
 	public Client()
 	{
-		initialize();
+		
 	}
 	
 	public void initialize()
 	{
-		int portNumber = 2222;
+		int portNumber = 8000;
 		// The default host.
 		String host = "localhost";
 		
@@ -52,8 +52,7 @@ public class Client implements Runnable
 	} 
     catch (IOException e) 
     {
-    	System.err.println("Couldn't get I/O for the connection to the host "
-	          + host);
+    	System.err.println("Couldn't get I/O for the connection to the host " + host);
 	}
 
 	/*
@@ -66,9 +65,12 @@ public class Client implements Runnable
 		{
 	    /* Create a thread to read from the server. */
 			new Thread(new Client()).start();
+			
 	        while (!closed) 
 	        {
+	        	System.out.println(1);
 	        	os.println(inputLine.readLine().trim());
+	        	System.out.println(2);
 	        }
 	        /*
 	         * Close the output stream, close the input stream, close the socket.
@@ -81,6 +83,8 @@ public class Client implements Runnable
 		{
 			System.err.println("IOException:  " + e);
 	    }
+		
+		
 	 }
 	}
 	
@@ -103,10 +107,9 @@ public class Client implements Runnable
 	public void connectToServer(String username)
 	{
 		username_ = username;
+		initialize();
 	}
 	
-	
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public void run() 
@@ -115,16 +118,20 @@ public class Client implements Runnable
      * Keep on reading from the socket till we receive "Bye" from the
      * server. Once we received that then we want to break.
      */
+		
 	    String responseLine;
 	    try 
 	    {
-		      while ((responseLine = is.readLine()) != null) 
+//tutaj stoi
+	    	while ((responseLine = is.readLine()) != null) 
 		      {
+		    	  
 		    	  System.out.println(responseLine);
 		    	  if (responseLine.indexOf("*** Bye") != -1)
 		    		  break;
 		      }
 		      closed = true;
+		      System.out.println(3);
 	    } 
 	    catch (IOException e) 
 	    {
