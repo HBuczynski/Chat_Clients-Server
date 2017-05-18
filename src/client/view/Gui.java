@@ -34,7 +34,8 @@ public class Gui {
 	public JButton endConversation;
 	
 	public JTabbedPane conversations;
-	public JTextArea usersArea;
+	//public JTextArea usersArea;
+	public JPanel usersPanel;
 	public JTextArea sendArea;
 	
 	public JScrollPane sendScroll;
