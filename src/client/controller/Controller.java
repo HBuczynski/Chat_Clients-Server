@@ -18,6 +18,7 @@ public class Controller
 	{
 		model_ = model;
 		view_ = view;
+		model.setView(view_);
 		
 		initizializeListeneres();
 	}

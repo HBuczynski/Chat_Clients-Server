@@ -11,87 +11,89 @@ import client.model.*;
  * @author HBuczynski
  * @version 1.0
  */
-public class Client implements Runnable
+public class Client
 {
-	// The client socket
-	private static Socket clientSocket = null;
-	// The output stream
-	private static PrintStream os = null;
-	// The input stream
-	private static DataInputStream is = null;
-
-	private static BufferedReader inputLine = null;
-	private static boolean closed = false;
+	private Model model_;
+	// for I/O
+	private ObjectInputStream sInput;		// to read from the socket
+	private ObjectOutputStream sOutput;		// to write on the socket
+	private Socket socket;
 	
-	private String username_;
+	// the server, the port and the username
+	private String server, username;
+	private int port;
 	
-	public Client()
+	public Client(String server, int port, String username, Model model)
 	{
-		
+		this.server = server;
+		this.port = port;
+		this.username = username;
+		model_= model;
 	}
 	
 	public void initialize()
 	{
-		int portNumber = 8000;
-		// The default host.
-		String host = "localhost";
+		// try to connect to the server
+		try {
+			socket = new Socket(server, port);
+		} 
+		// if it failed not much I can so
+		catch(Exception ec) {
+			model_.setMessageFromServer(("Error connectiong to server:" + ec), "Server");
+		}
+				
+		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
+		model_.setMessageFromServer(msg, "Server");
 		
-		  /*
-	     * Open a socket on a given host and port. Open input and output streams.
-	     */
-    try 
-    {
-    	clientSocket = new Socket(host, portNumber);
-    	inputLine = new BufferedReader(new InputStreamReader(System.in));
-    	os = new PrintStream(clientSocket.getOutputStream());
-    	is = new DataInputStream(clientSocket.getInputStream());
-    } 
-    catch (UnknownHostException e) 
-    {
-    	System.err.println("Don't know about host " + host);
-	} 
-    catch (IOException e) 
-    {
-    	System.err.println("Couldn't get I/O for the connection to the host " + host);
-	}
+		/* Creating both Data Stream */
+		try
+		{
+			sInput  = new ObjectInputStream(socket.getInputStream());
+			sOutput = new ObjectOutputStream(socket.getOutputStream());
+		}
+		catch (IOException eIO) {
+			model_.setMessageFromServer(("Exception creating new Input/output Streams: " + eIO), "Server");
+		}
 
-	/*
-	* If everything has been initialized then we want to write some data to the
-	* socket we have opened a connection to on the port portNumber.
-	*/
-	if (clientSocket != null && os != null && is != null) 
-	{
-		try 
+		// creates the Thread to listen from the server 
+		new ListenFromServer().start();
+		// Send our username to the server this is the only message that we
+		// will send as a String. All other messages will be ChatMessage objects
+		try
 		{
-	    /* Create a thread to read from the server. */
-			new Thread(new Client()).start();
-			
-	        while (!closed) 
-	        {
-	        	System.out.println(1);
-	        	os.println(inputLine.readLine().trim());
-	        	System.out.println(2);
-	        }
-	        /*
-	         * Close the output stream, close the input stream, close the socket.
-	         */
-	        os.close();
-	        is.close();
-	        clientSocket.close();
-	    } 
-		catch (IOException e) 
-		{
-			System.err.println("IOException:  " + e);
-	    }
-		
-		
-	 }
+			sOutput.writeObject(username);
+		}
+		catch (IOException eIO) {
+			model_.setMessageFromServer(("Exception doing login : " + eIO), "Server");
+			disconnect();
+		}
+		// success we inform the caller that it worked
+
 	}
 	
-	
-	public void sendToServer(String message)
+	public void disconnect()
 	{
-		
+		try { 
+			if(sInput != null) sInput.close();
+		}
+		catch(Exception e) {} // not much else I can do
+		try {
+			if(sOutput != null) sOutput.close();
+		}
+		catch(Exception e) {} // not much else I can do
+        try{
+			if(socket != null) socket.close();
+		}
+		catch(Exception e) {} // not much else I can do
+	}
+	
+	public void sendMessage(ChatMessage msg)
+	{
+		try {
+			sOutput.writeObject(msg);
+		}
+		catch(IOException e) {
+		}
 	}
 	
 	public void receiveMessageFromServer()
@@ -106,37 +108,26 @@ public class Client implements Runnable
 	
 	public void connectToServer(String username)
 	{
-		username_ = username;
 		initialize();
 	}
 	
-	@SuppressWarnings("deprecation")
-	@Override
-	public void run() 
-	{
-	/*
-     * Keep on reading from the socket till we receive "Bye" from the
-     * server. Once we received that then we want to break.
-     */
-		
-	    String responseLine;
-	    try 
-	    {
-//tutaj stoi
-	    	while ((responseLine = is.readLine()) != null) 
-		      {
-		    	  
-		    	  System.out.println(responseLine);
-		    	  if (responseLine.indexOf("*** Bye") != -1)
-		    		  break;
-		      }
-		      closed = true;
-		      System.out.println(3);
-	    } 
-	    catch (IOException e) 
-	    {
-	    	System.err.println("IOException:  " + e);
-	    }
-	}
+	class ListenFromServer extends Thread {
 
+		public void run() {
+			while(true) {
+				try {
+					String msg = (String) sInput.readObject();
+					// if console mode print the message and add back the prompt
+					model_.setMessageFromServer(msg, username);
+				}
+				catch(IOException e) {
+					model_.setMessageFromServer(("Server has close the connection: " + e), "Server");
+					break;
+				}
+				// can't happen with a String object but need the catch anyhow
+				catch(ClassNotFoundException e2) {
+				}
+			}
+		}
+	}
 }
