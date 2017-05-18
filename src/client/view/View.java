@@ -22,7 +22,7 @@ public class View {
 		showMainWindow();
 		
 		//test
-		addNewConversationTab("Kazik");
+		addUsersToList("Kazik");
 		addUsersToList("Karol");
 		addUsersToList("Staszek");
 	}
@@ -61,7 +61,14 @@ public class View {
 	
 	public void addUsersToList(String name)
 	{
-		usersVector.addElement(name);
+		usersVector.add(name);
+		addUsersToPanel();
+	}
+	
+	public void removeUserFromList(String name)
+	{
+		int index = usersVector.indexOf(name);
+		usersVector.remove(index);
 		addUsersToPanel();
 	}
 	
@@ -83,6 +90,8 @@ public class View {
 			
 			guiObjects_.usersPanel.add(newUser);
 		}
+		
+		guiObjects_.usersPanel.repaint();
 	}
 	
 	public void setAppendMessage(String message, String user)
