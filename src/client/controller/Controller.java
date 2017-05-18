@@ -44,6 +44,7 @@ public class Controller
 				view_.setUsername();
 				 //TO DO
 				 // Connection with server
+				model_.setConnectionWithServer(view_.getUsername());
 				view_.setTextMessage(" >> Connection with " + view_.getUsername() + " was established :)\n");
 			 }
 			 else

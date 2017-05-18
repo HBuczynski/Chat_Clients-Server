@@ -88,7 +88,7 @@ public class View {
 		
 		for(int i=0; i < usersVector.size(); ++i)
 		{
-			JLabel newUser = new JLabel("##  " + usersVector.get(i));
+			JLabel newUser = new JLabel("  #  " + usersVector.get(i));
 			
 			newUser.setName(usersVector.get(i));
 			newUser.setSize(140, 30);
