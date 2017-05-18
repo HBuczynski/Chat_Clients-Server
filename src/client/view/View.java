@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
+import javax.swing.event.*;
 
 import client.view.Gui;
 
@@ -20,6 +22,8 @@ import client.view.Gui;
  * @version 1.0
  */
 
+//TO DO 
+//text copy text from user area
 public class View {
 	
 	public View()
@@ -41,6 +45,8 @@ public class View {
 		
 		//test
 		addNewConversationTab("Kazik");
+		addUsersToList("karol");
+		addUsersToList("Staszek");
 	}
 	
 	private void initializeMainWindow()
@@ -107,18 +113,31 @@ public class View {
 	
 	private void initializeEastPanel()
 	{
-		guiObjects_.userArea = new JTextArea();
-		guiObjects_.userArea.setLineWrap(true);
-		guiObjects_.userArea.setEditable(false);
-		guiObjects_.userArea.setFont(new Font("Arial", Font.PLAIN, 16));
-		guiObjects_.userArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		guiObjects_.userScroll = new JScrollPane(guiObjects_.userArea);
+		guiObjects_.usersArea = new JTextArea();
+		guiObjects_.usersArea.setLineWrap(true);
+		guiObjects_.usersArea.setEditable(false);
+		guiObjects_.usersArea.setFont(new Font("Arial", Font.PLAIN, 16));
+		guiObjects_.usersArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		guiObjects_.userScroll = new JScrollPane(guiObjects_.usersArea);
 		guiObjects_.userScroll.setBounds(580, 90, 180, 290);
 		
 		endConversationButton();
 					
 		guiObjects_.panel.add(guiObjects_.userScroll);
 		
+		guiObjects_.usersArea.addCaretListener(new CaretListener(){
+			   public void caretUpdate(CaretEvent ce)
+			   {
+			        int dot=ce.getDot();
+			        int mark=ce.getMark();
+
+			              if(dot!=mark)
+			              {
+			            	  if(!guiObjects_.conversationMap.containsKey(guiObjects_.usersArea.getSelectedText()))
+			            		  addNewConversationTab(guiObjects_.usersArea.getSelectedText());
+			              }
+			   }
+		});
 	}
 	
 	private void initializeSouthPanel()
@@ -206,6 +225,11 @@ public class View {
 		guiObjects_.usernameField.setEditable(false);
 		connectionIsEstablished = true;
 	}
+	
+	public void addUsersToList(String name)
+	{
+		guiObjects_.usersArea.append(name + "\n");
+	}
 			
 	public void showMainWindow()
 	{
@@ -224,9 +248,16 @@ public class View {
 			public void actionPerformed(ActionEvent e)
 			{
 				if(guiObjects_.conversations.getSelectedIndex() != guiObjects_.conversations.indexOfTab("Server"))
+				{			
+					int index = guiObjects_.conversations.getSelectedIndex();
+					String name = new String(guiObjects_.conversations.getTitleAt(index));
+					guiObjects_.conversationMap.remove(name);
+					
 					guiObjects_.conversations.remove(guiObjects_.conversations.getSelectedIndex());
+				}
 			}
 		});
+		
 	}
 	
 	public void sendButtonListener(ActionListener listenForSendButton)
@@ -245,7 +276,7 @@ public class View {
 	}
 	
 	private Gui guiObjects_;
-	private boolean connectionIsEstablished;
 	private String username;
+	private boolean connectionIsEstablished;
 	
 }
