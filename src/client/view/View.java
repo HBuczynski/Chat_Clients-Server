@@ -1,20 +1,10 @@
 package client.view;
 
 import java.awt.Color;
-import java.io.File;
-
-import java.util.HashMap;
+import java.util.Vector;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
+import java.awt.event.*;
 import javax.swing.*;
-
-import client.view.*;
-
 
 /**
  * View consists components responsible for communication with user.
@@ -33,7 +23,7 @@ public class View {
 		
 		//test
 		addNewConversationTab("Kazik");
-		addUsersToList("karol");
+		addUsersToList("Karol");
 		addUsersToList("Staszek");
 	}
 	
@@ -41,11 +31,12 @@ public class View {
 	{
 		guiObjects_ = new Gui();
 		guiCreator_ = new GuiCreator(guiObjects_);
+		usersVector = new Vector<String>();
 		
 		connectionIsEstablished = false;
 		
 		guiCreator_.initialize();
-		conversationButtonAcion();			
+		this.conversationButtonAcion();			
 	}
 	
 	private void createServerTab()
@@ -57,8 +48,10 @@ public class View {
 	{	
 		guiObjects_.conversationMap.put(userName, new JTextArea());
 		guiObjects_.conversationMap.get(userName).setLineWrap(true);
+		
 		if(userName.equals("Server"))
 				guiObjects_.conversationMap.get(userName).setText(" >> ");
+		
 		guiObjects_.conversationMap.get(userName).setEditable(false);
 		guiObjects_.conversationMap.get(userName).setFont(new Font("Arial", Font.PLAIN, 16));
 		guiObjects_.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -68,14 +61,28 @@ public class View {
 	
 	public void addUsersToList(String name)
 	{
-		JLabel newUser = new JLabel("##  " + name);
-		newUser.setName(name);
-		newUser.setSize(140, 30);
-		MouseAdapterMod mam = new MouseAdapterMod();
-		newUser.addMouseListener(mam);
-				
-		newUser.setFont(new Font("Arial", Font.PLAIN, 20));
-		guiObjects_.usersPanel.add(newUser);
+		usersVector.addElement(name);
+		addUsersToPanel();
+	}
+	
+	private void addUsersToPanel()
+	{
+		MouseAdapterMod mouseAdapter = new MouseAdapterMod();
+		
+		guiObjects_.usersPanel.removeAll();
+		guiObjects_.usersPanel.revalidate();
+		
+		for(int i=0; i < usersVector.size(); ++i)
+		{
+			JLabel newUser = new JLabel("##  " + usersVector.get(i));
+			
+			newUser.setName(usersVector.get(i));
+			newUser.setSize(140, 30);
+			newUser.addMouseListener(mouseAdapter);
+			newUser.setFont(new Font("Arial", Font.PLAIN, 20));
+			
+			guiObjects_.usersPanel.add(newUser);
+		}
 	}
 	
 	public void setAppendMessage(String message, String user)
@@ -153,7 +160,6 @@ public class View {
 				}
 			}
 		});
-		
 	}
 	
 	public void sendButtonListener(ActionListener listenForSendButton)
@@ -172,18 +178,22 @@ public class View {
 	}
 	
 	private class MouseAdapterMod extends MouseAdapter {
-		   public void mousePressed(MouseEvent e) {
-		       JLabel label = (JLabel)e.getSource();	       
-		       if(!guiObjects_.conversationMap.containsKey(label.getName()))
-		       {
-		    	   	addNewConversationTab(label.getName());
-		       }
-		   }
-		}
+	   
+		public void mousePressed(MouseEvent e) {
+			
+	       JLabel label = (JLabel)e.getSource();
+	       
+	       if(!guiObjects_.conversationMap.containsKey(label.getName()))
+	       {
+	    	   	addNewConversationTab(label.getName());
+	       }
+	   }
+	}
 	
 	private Gui guiObjects_;
 	private GuiCreator guiCreator_;
 	private String username;
 	private boolean connectionIsEstablished;
+	private Vector<String> usersVector;
 	
 }

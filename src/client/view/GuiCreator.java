@@ -1,29 +1,14 @@
 package client.view;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
+import javax.swing.*;
 import java.util.HashMap;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
-import client.view.*;
 
 public class GuiCreator {
 
 	public GuiCreator(Gui gui)
 	{
 		guiObjects_ = gui;
-		
 		initialize();
 	}
 	
@@ -76,9 +61,9 @@ public class GuiCreator {
 		guiObjects_.disconnect.setSize(110, 30);
 		guiObjects_.disconnect.setLocation(445, 30);
 		
-		guiObjects_.onlineUsers = new JLabel("ONLINE USERS");
-		guiObjects_.onlineUsers.setSize(140, 35);
-		guiObjects_.onlineUsers.setLocation(610, 60);
+		guiObjects_.onlineUsers = new JLabel("__ONLINE USERS__");
+		guiObjects_.onlineUsers.setSize(160, 35);
+		guiObjects_.onlineUsers.setLocation(590, 60);
 		guiObjects_.onlineUsers.setFont(new Font("Arial", Font.BOLD, 16));
 		
 		guiObjects_.panel.add(guiObjects_.userLabel);
@@ -92,9 +77,7 @@ public class GuiCreator {
 	{
 		guiObjects_.conversations = new JTabbedPane();
 		guiObjects_.conversationMap = new HashMap<String, JTextArea>();
-		guiObjects_.conversations.setBounds(30, 70, 525, 350);
-		//addNewConversationTab("Server");
-		
+		guiObjects_.conversations.setBounds(30, 70, 525, 350);	
 		guiObjects_.panel.add(guiObjects_.conversations);
 	}
 	

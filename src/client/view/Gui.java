@@ -1,17 +1,7 @@
 package client.view;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
+import javax.swing.*;
 import java.util.*;
-
-import javax.swing.JButton;
-import client.view.*;
 
 /**
  * Gui consists all objects occurring in the interface.
