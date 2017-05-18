@@ -28,7 +28,7 @@ public class Client
 		this.server = server;
 		this.port = port;
 		this.username = username;
-		model_= model;
+		//model_= model;
 	}
 	
 	public void initialize()
@@ -96,16 +96,6 @@ public class Client
 		}
 	}
 	
-	public void receiveMessageFromServer()
-	{
-		
-	}
-	
-	public void receiveUserListFromServer()
-	{
-		
-	}
-	
 	public void connectToServer(String username)
 	{
 		initialize();
@@ -118,7 +108,7 @@ public class Client
 				try {
 					String msg = (String) sInput.readObject();
 					// if console mode print the message and add back the prompt
-					model_.setMessageFromServer(msg, username);
+					model_.setMessageFromServer(msg, username); //TO DO user !!!!
 				}
 				catch(IOException e) {
 					model_.setMessageFromServer(("Server has close the connection: " + e), "Server");

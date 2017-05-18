@@ -32,7 +32,7 @@ public class Controller
 		
 	class SendButton implements ActionListener{
 		 public void actionPerformed(ActionEvent e) {
-			 model_.redirectMessageToServer(view_.getMessage());
+			 model_.redirectMessageToServer(view_.getMessage(), view_.destinationUser());
 			 view_.setAppendMessage(view_.getMessage(), view_.getUsername());
 			 view_.clearUserArea();
 		 }

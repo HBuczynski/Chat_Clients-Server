@@ -151,6 +151,13 @@ public class View {
 		return guiObjects_.usernameField.getText();
 	}
 	
+	public String destinationUser()
+	{
+		int index = guiObjects_.conversations.getSelectedIndex();
+		String name = new String(guiObjects_.conversations.getTitleAt(index));
+		return name;
+	}
+	
 	public void setUsername()
 	{
 		username = getUsername();

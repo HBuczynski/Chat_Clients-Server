@@ -15,9 +15,12 @@ import client.view.View;
 
 public class Model {
 	
+	private int port = 1500;
+	private String host = "localhost";
+	
 	public Model()
 	{
-		client_ = new Client("localhost", 1500, view_.getUsername(), this);
+		
 	}
 	
 	public void setView(View view)
@@ -33,38 +36,15 @@ public class Model {
 		}
 	}
 	
-	public void redirectMessageToServer(String message)
+	public void redirectMessageToServer(String message, String dest)
 	{
-		//przekierowanie do strumienia
+		client_.sendMessage(new ChatMessage(ChatMessage.MESSAGE, message, view_.getUsername(), dest));
 	}
 	
 	public void setConnectionWithServer(String userName)
 	{
+		client_ = new Client(host, port, view_.getUsername(), this);
 		client_.initialize();
-		
-		Scanner scan = new Scanner(System.in);
-		
-		// loop forever for message from the user
-		while(true) {
-			System.out.print("> ");
-			// read message from user
-			String msg = scan.nextLine();
-			// logout if message is LOGOUT
-			if(msg.equalsIgnoreCase("LOGOUT")) {
-				client_.sendMessage(new ChatMessage(ChatMessage.LOGOUT, ""));
-				// break to do the disconnect
-				break;
-			}
-			// message WhoIsIn
-			else if(msg.equalsIgnoreCase("WHOISIN")) {
-				client_.sendMessage(new ChatMessage(ChatMessage.WHOISIN, ""));				
-			}
-			else {				// default to ordinary message
-				client_.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg));
-			}
-		}
-		// done disconnect
-		client_.disconnect();
 	}
 	
 	public void setMessageFromServer(String msg, String user)
