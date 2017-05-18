@@ -1,9 +1,12 @@
 package client.view;
 
 import java.awt.Color;
+import java.util.Calendar;
 import java.util.Vector;
 import java.awt.Font;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+
 import javax.swing.*;
 
 /**
@@ -17,6 +20,7 @@ public class View {
 	
 	public View()
 	{
+		initializeVariables();
 		initializeComponents();
 		createServerTab();
 		showMainWindow();
@@ -27,14 +31,17 @@ public class View {
 		addUsersToList("Staszek");
 	}
 	
-	private void initializeComponents()
+	private void initializeVariables()
 	{
 		guiObjects_ = new Gui();
 		guiCreator_ = new GuiCreator(guiObjects_);
 		usersVector = new Vector<String>();
 		
 		connectionIsEstablished = false;
-		
+	}
+	
+	private void initializeComponents()
+	{
 		guiCreator_.initialize();
 		this.conversationButtonAcion();			
 	}
@@ -96,18 +103,21 @@ public class View {
 	
 	public void setAppendMessage(String message, String user)
 	{
+		Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        
 		if(connectionIsEstablished && guiObjects_.conversations.getSelectedIndex() !=0)
 		{
 			if(user.equals(username))
 			{
 				int index = guiObjects_.conversations.getSelectedIndex();
 				String name = new String(guiObjects_.conversations.getTitleAt(index));
-				guiObjects_.conversationMap.get(name).append(" >> " + user + "\n");
+				guiObjects_.conversationMap.get(name).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
 				guiObjects_.conversationMap.get(name).append(message + "\n");
 			}			
 			else
 			{
-				guiObjects_.conversationMap.get(user).append(" >> " + user +"\n");
+				guiObjects_.conversationMap.get(user).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
 				guiObjects_.conversationMap.get(user).append(message + "\n");
 			}
 		}
