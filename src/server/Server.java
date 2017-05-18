@@ -2,6 +2,10 @@ package server;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -18,25 +22,53 @@ import javax.swing.JTextArea;
  */
 public class Server 
 {
+	// The server socket.
+	private static ServerSocket serverSocket = null;
+	// The client socket.
+	private static Socket clientSocket = null;
+	
+	private static Vector<ClientThread> threads = new Vector<ClientThread>();
+	private int portNumber;
+	private GuiServerCreator gui_;
+	private boolean run;
+	
 	public Server()
 	{
 		gui_ = new GuiServerCreator();
+		run = true;
 	}
 		
 	public void run()
 	{
+		portNumber = 2222;
 		
-	}
-	
-	public void sendMessageToClient()
-	{
+		try 
+		{
+			serverSocket = new ServerSocket(portNumber);
+		} 
+		catch (IOException e) 
+		{
+		     System.out.println(e);
+		}
 		
+		// Create a client socket for each connection and pass it to a new client
+	    // thread.
+		
+		while (run) 
+		{
+			try
+			{
+				clientSocket = serverSocket.accept();
+		      
+				threads.add(new ClientThread(clientSocket, threads));
+		        threads.lastElement().start();
+		        
+		      } catch (IOException e) {
+		        System.out.println(e);
+		      }
+		    
+		 }
+	     
 	}
 
-	public void getMessageFromClient()
-	{
-		
-	}
-	
-	private GuiServerCreator gui_;;
 }
