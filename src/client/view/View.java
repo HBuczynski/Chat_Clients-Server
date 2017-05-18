@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
-import client.view.Gui;
+import client.view.*;
 
 
 /**
@@ -28,19 +28,8 @@ public class View {
 	public View()
 	{
 		initializeComponents();
+		createServerTab();
 		showMainWindow();
-	}
-	
-	private void initializeComponents()
-	{
-		guiObjects_ = new Gui();
-		connectionIsEstablished = false;
-		
-		initializeMainWindow();
-		initializeNorthPanel();
-		initializeCenterPanel();
-		initializeEastPanel();
-		initializeSouthPanel();
 		
 		//test
 		addNewConversationTab("Kazik");
@@ -48,99 +37,20 @@ public class View {
 		addUsersToList("Staszek");
 	}
 	
-	private void initializeMainWindow()
+	private void initializeComponents()
 	{
-		guiObjects_.mainFrame = new JFrame("Chatu-chatu");
-		guiObjects_.mainFrame.setSize(800, 700);
-		guiObjects_.mainFrame.setLocationRelativeTo(null);
-		guiObjects_.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		guiObjects_ = new Gui();
+		guiCreator_ = new GuiCreator(guiObjects_);
 		
-		//TO DO - make icon visible
-		//System.out.println(new File("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\client\\view\\images\\icon.jpg").exists());
-		ImageIcon icon = new ImageIcon("C:\\Users\\Hubert\\Documents\\Programowanie\\Java\\ClientsServer_Chat\\src\\client\\view\\images\\icon.jpg");
-		guiObjects_.mainFrame.setIconImage(icon.getImage());
+		connectionIsEstablished = false;
 		
-		guiObjects_.panel = new JPanel();
-		guiObjects_.panel.setOpaque(true);
-		guiObjects_.panel.setBackground(Color.lightGray);
-		guiObjects_.panel.setLayout(null);
-		
-		guiObjects_.mainFrame.setContentPane(guiObjects_.panel);
+		guiCreator_.initialize();
+		conversationButtonAcion();			
 	}
 	
-	private void initializeNorthPanel()
+	private void createServerTab()
 	{
-		guiObjects_.userLabel = new JLabel("USERNAME :");
-		guiObjects_.userLabel.setSize(120, 35);
-		guiObjects_.userLabel.setLocation(30, 25);
-		guiObjects_.userLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		
-		guiObjects_.usernameField = new JTextField();
-		guiObjects_.usernameField.setSize(160, 30);
-		guiObjects_.usernameField.setLocation(140, 30);
-		guiObjects_.usernameField.setFont(new Font("Arial", Font.PLAIN, 16));
-		
-		guiObjects_.connect = new JButton("CONNECT");
-		guiObjects_.connect.setSize(110, 30);
-		guiObjects_.connect.setLocation(320, 30);
-		
-		guiObjects_.disconnect = new JButton("DISCONNECT");
-		guiObjects_.disconnect.setSize(110, 30);
-		guiObjects_.disconnect.setLocation(445, 30);
-		
-		guiObjects_.onlineUsers = new JLabel("ONLINE USERS");
-		guiObjects_.onlineUsers.setSize(140, 35);
-		guiObjects_.onlineUsers.setLocation(610, 60);
-		guiObjects_.onlineUsers.setFont(new Font("Arial", Font.BOLD, 16));
-		
-		guiObjects_.panel.add(guiObjects_.userLabel);
-		guiObjects_.panel.add(guiObjects_.usernameField);
-		guiObjects_.panel.add(guiObjects_.connect);
-		guiObjects_.panel.add(guiObjects_.disconnect);
-		guiObjects_.panel.add(guiObjects_.onlineUsers);
-	}
-	
-	private void initializeCenterPanel()
-	{
-		guiObjects_.conversations = new JTabbedPane();
-		guiObjects_.conversationMap = new HashMap<String, JTextArea>();
-		guiObjects_.conversations.setBounds(30, 70, 525, 350);
 		addNewConversationTab("Server");
-		
-		guiObjects_.panel.add(guiObjects_.conversations);
-	}
-	
-	private void initializeEastPanel()
-	{
-		guiObjects_.usersPanel = new JPanel();
-		guiObjects_.usersPanel.setLayout(new BoxLayout(guiObjects_.usersPanel, BoxLayout.PAGE_AXIS));
-		guiObjects_.usersPanel.setBackground(Color.WHITE);
-		
-		guiObjects_.userScroll = new JScrollPane(guiObjects_.usersPanel);
-		guiObjects_.userScroll.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		guiObjects_.userScroll.setBounds(580, 90, 180, 290);		
-		guiObjects_.panel.add(guiObjects_.userScroll);
-		
-		endConversationButton();
-	}
-	
-	private void initializeSouthPanel()
-	{
-		guiObjects_.send = new JButton("SEND");
-		guiObjects_.send.setSize(110, 27);
-		guiObjects_.send.setLocation(650, 618);
-		
-		guiObjects_.sendArea = new JTextArea();
-		guiObjects_.sendArea.setLineWrap(true);
-		guiObjects_.sendArea.setEditable(true);
-		guiObjects_.sendArea.setFont(new Font("Arial", Font.PLAIN, 16));
-		guiObjects_.sendArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
-		guiObjects_.sendScroll = new JScrollPane(guiObjects_.sendArea);
-		guiObjects_.sendScroll.setBounds(30, 435, 730, 180);
-
-		guiObjects_.panel.add(guiObjects_.sendScroll);
-		guiObjects_.panel.add(guiObjects_.send);
 	}
 	
 	private void addNewConversationTab(String userName)
@@ -156,9 +66,16 @@ public class View {
 		guiObjects_.conversations.addTab(userName, new JScrollPane(guiObjects_.conversationMap.get(userName)));
 	}
 	
-	public String getMessage()
+	public void addUsersToList(String name)
 	{
-		return guiObjects_.sendArea.getText();
+		JLabel newUser = new JLabel("##  " + name);
+		newUser.setName(name);
+		newUser.setSize(140, 30);
+		MouseAdapterMod mam = new MouseAdapterMod();
+		newUser.addMouseListener(mam);
+				
+		newUser.setFont(new Font("Arial", Font.PLAIN, 20));
+		guiObjects_.usersPanel.add(newUser);
 	}
 	
 	public void setAppendMessage(String message, String user)
@@ -193,6 +110,11 @@ public class View {
 		guiObjects_.conversationMap.get("Server").setText(message);
 	}
 	
+	public String getMessage()
+	{
+		return guiObjects_.sendArea.getText();
+	}
+	
 	public void clearUserArea()
 	{
 		guiObjects_.sendArea.setText("");
@@ -209,31 +131,14 @@ public class View {
 		guiObjects_.usernameField.setEditable(false);
 		connectionIsEstablished = true;
 	}
-	
-	public void addUsersToList(String name)
-	{
-		JLabel newUser = new JLabel("##  " + name);
-		newUser.setName(name);
-		newUser.setSize(140, 30);
-		MouseAdapterMod mam = new MouseAdapterMod();
-		newUser.addMouseListener(mam);
 				
-		newUser.setFont(new Font("Arial", Font.PLAIN, 20));
-		guiObjects_.usersPanel.add(newUser);
-	}
-			
 	public void showMainWindow()
 	{
 		guiObjects_.mainFrame.setVisible(true);
 	}
 	
-	private void endConversationButton()
+	private void conversationButtonAcion()
 	{
-		guiObjects_.endConversation = new JButton("END CONVERSATION");
-		guiObjects_.endConversation.setSize(180,30);
-		guiObjects_.endConversation.setLocation(580, 390);
-		guiObjects_.panel.add(guiObjects_.endConversation);
-		
 		guiObjects_.endConversation.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -266,15 +171,18 @@ public class View {
 		guiObjects_.connect.addActionListener(act);
 	}
 	
-	public class MouseAdapterMod extends MouseAdapter {
+	private class MouseAdapterMod extends MouseAdapter {
 		   public void mousePressed(MouseEvent e) {
 		       JLabel label = (JLabel)e.getSource();	       
 		       if(!guiObjects_.conversationMap.containsKey(label.getName()))
+		       {
 		    	   	addNewConversationTab(label.getName());
+		       }
 		   }
 		}
 	
 	private Gui guiObjects_;
+	private GuiCreator guiCreator_;
 	private String username;
 	private boolean connectionIsEstablished;
 	
