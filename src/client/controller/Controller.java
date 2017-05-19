@@ -13,7 +13,9 @@ import client.view.View;
  */
 public class Controller 
 {
-
+	private Model model_;
+	private View view_;
+	
 	public Controller(Model model, View view)
 	{
 		model_ = model;
@@ -30,16 +32,20 @@ public class Controller
 		view_.disconnectButtonListener(new DisconnectButton());
 	}
 		
-	class SendButton implements ActionListener{
-		 public void actionPerformed(ActionEvent e) {
+	class SendButton implements ActionListener
+	{
+		 public void actionPerformed(ActionEvent e) 
+		 {
 			 model_.redirectMessageToServer(view_.getMessage(), view_.destinationUser());
 			 view_.setAppendMessage(view_.getMessage(), view_.getUsername());
 			 view_.clearUserArea();
 		 }
 	}
 	
-	class ConnectButton implements ActionListener{
-		 public void actionPerformed(ActionEvent e) {
+	class ConnectButton implements ActionListener
+	{
+		 public void actionPerformed(ActionEvent e) 
+		 {
 			 if(!(view_.getUsername().contains(" ") || view_.getUsername().length() == 0))
 			 {
 				view_.setUsername();
@@ -52,16 +58,12 @@ public class Controller
 		 }
 	}
 	
-	class DisconnectButton implements ActionListener{
+	class DisconnectButton implements ActionListener
+	{
 		 public void actionPerformed(ActionEvent e) 
 		 {
 			 model_.disconnect();
 			 view_.disableConnection();
 		 }
 	}
-	
-
-			
-	private Model model_;
-	private View view_;
 }
