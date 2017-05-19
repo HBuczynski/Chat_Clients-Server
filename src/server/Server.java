@@ -23,14 +23,11 @@ import client.model.ChatMessage;
 public class Server 
 {
 	private GuiServerCreator gui_;
-	// a unique ID for each connection
 	private static int uniqueId;
 	// an ArrayList to keep the list of the Client
 	private ArrayList<ClientThread> al;
 	// to display time
 	private SimpleDateFormat sdf;
-
-	// the boolean that will be turned of to stop the server
 	private boolean run;
 	private int port;
 		
@@ -93,12 +90,14 @@ public class Server
 	}
 	
 	// for a client who logoff using the LOGOUT message
-	synchronized void remove(int id) {
+	synchronized void remove(int id) 
+	{
 		// scan the array list until we found the Id
-		for(int i = 0; i < al.size(); ++i) {
+		for(int i = 0; i < al.size(); ++i) 
+		{
 			ClientThread ct = al.get(i);
-			// found it
-			if(ct.id == id) {
+			if(ct.id == id) 
+			{
 				al.remove(i);
 				return;
 			}
@@ -117,7 +116,6 @@ public class Server
 			if(ct.username.equals(chat.getDestination()))
 			{
 				System.out.println("Broadcst:" +ct.username);
-			// try to write to the Client if it fails remove it from the list
 				if(!ct.writeMsg(chat)) {
 					al.remove(i);
 					gui_.addMessage("Disconnected Client " + ct.username + " removed from list.");
@@ -146,7 +144,8 @@ public class Server
 	}
 		
 	/** One instance of this thread will run for each client */
-	class ClientThread extends Thread {
+	class ClientThread extends Thread 
+	{
 		// the socket where to listen/talk
 		Socket socket;
 		ObjectInputStream sInput;
@@ -161,7 +160,8 @@ public class Server
 		String date;
 
 		// Constructore
-		ClientThread(Socket socket) {
+		ClientThread(Socket socket) 
+		{
 			// a unique id
 			id = ++uniqueId;
 			this.socket = socket;
@@ -177,24 +177,24 @@ public class Server
 				username = (String) sInput.readObject();
 				gui_.addMessage(username + " just connected.");
 			}
-			catch (IOException e) {
+			catch (IOException e) 
+			{
 				gui_.addMessage("Exception creating new Input/output Streams: " + e);
 				return;
 			}
 			// have to catch ClassNotFoundException
 			// but I read a String, I am sure it will work
-			catch (ClassNotFoundException e) {
-			}
+			catch (ClassNotFoundException e) {}
             date = new Date().toString() + "\n";
 		}
 
-		// what will run forever
-		public void run() {
-			// to loop until LOGOUT
+		public void run() 
+		{
+
 			boolean keepGoing = true;
 			
-			while(keepGoing) {
-				// read a String (which is an object)
+			while(keepGoing) 
+			{
 				try {
 					chatMessage_ = (ChatMessage) sInput.readObject();
 				}
@@ -205,11 +205,11 @@ public class Server
 				catch(ClassNotFoundException e2) {
 					break;
 				}
-				// the messaage part of the ChatMessage
 				String message = chatMessage_.getMessage();
 
 				// Switch on the type of message receive
-				switch(chatMessage_.getType()) {
+				switch(chatMessage_.getType()) 
+				{
 					case ChatMessage.MESSAGE:
 						broadcast(chatMessage_);
 						break;
@@ -232,18 +232,22 @@ public class Server
 		/*
 		 * Write a String to the Client output stream
 		 */
-		private boolean writeMsg(ChatMessage msg) {
+		private boolean writeMsg(ChatMessage msg) 
+		{
 			// if Client is still connected send the message to it
-			if(!socket.isConnected()) {
+			if(!socket.isConnected()) 
+			{
 				close();
 				return false;
 			}
 			// write the message to the stream
-			try {
+			try 
+			{
 				sOutput.writeObject(msg);
 			}
 			// if an error occurs, do not abort just inform the user
-			catch(IOException e) {
+			catch(IOException e) 
+			{
 				gui_.addMessage("Error sending message to " + username);
 				gui_.addMessage(e.toString());
 			}
@@ -266,6 +270,5 @@ public class Server
 			}
 			catch (Exception e) {}
 		}		
-
 	}
 }

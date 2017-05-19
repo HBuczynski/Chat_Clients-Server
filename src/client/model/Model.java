@@ -17,6 +17,8 @@ public class Model {
 	
 	private int port = 1500;
 	private String host = "localhost";
+	private Client client_;
+	private View view_;
 	
 	public Model()
 	{
@@ -57,9 +59,5 @@ public class Model {
 	public void disconnect()
 	{
 		client_.disconnect();
-	}
-	
-	private Client client_;
-	private View view_;
-	
+	}	
 }

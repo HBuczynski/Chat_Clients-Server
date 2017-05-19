@@ -4,6 +4,13 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.HashMap;
 
+/**
+ * GuiClientCreator consists all methods necessary to create GUI for client .
+ * 
+ * @author HBuczynski
+ * @version 1.0
+ */
+
 public class GuiCreator {
 
 	public GuiCreator(Gui gui)

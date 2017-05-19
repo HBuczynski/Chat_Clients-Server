@@ -9,6 +9,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+/**
+ * GuiServerCreator consists all methods necessary to create GUI for server .
+ * 
+ * @author HBuczynski
+ * @version 1.0
+ */
+
+
 public class GuiServerCreator extends JFrame
 {
 	private JPanel panel;

@@ -14,13 +14,13 @@ import client.model.*;
 public class Client
 {
 	private Model model_;
-	// for I/O
-	private ObjectInputStream sInput;		// to read from the socket
-	private ObjectOutputStream sOutput;		// to write on the socket
+	private ObjectInputStream streamInput;		// to read from the socket
+	private ObjectOutputStream streamOutput;		// to write on the socket
 	private Socket socket;
 	
 	// the server, the port and the username
-	public String server, username;
+	public String username;
+	private String server;
 	private int port;
 	
 	public Client(String server, int port, String username, Model model)
@@ -37,7 +37,6 @@ public class Client
 		try {
 			socket = new Socket(server, port);
 		} 
-		// if it failed not much I can so
 		catch(Exception ec) {
 			model_.setMessageFromServer(("Error connectiong to server:" + ec), "Server");
 		}
@@ -49,8 +48,8 @@ public class Client
 		/* Creating both Data Stream */
 		try
 		{
-			sInput  = new ObjectInputStream(socket.getInputStream());
-			sOutput = new ObjectOutputStream(socket.getOutputStream());
+			streamInput  = new ObjectInputStream(socket.getInputStream());
+			streamOutput = new ObjectOutputStream(socket.getOutputStream());
 		}
 		catch (IOException eIO) {
 			model_.setMessageFromServer(("Exception creating new Input/output Streams: " + eIO), "Server");
@@ -62,39 +61,36 @@ public class Client
 		// will send as a String. All other messages will be ChatMessage objects
 		try
 		{
-			sOutput.writeObject(username);
+			streamOutput.writeObject(username);
 		}
 		catch (IOException eIO) {
 			model_.setMessageFromServer(("Exception doing login : " + eIO), "Server");
 			disconnect();
 		}
-		// success we inform the caller that it worked
-
 	}
 	
 	public void disconnect()
 	{
 		try { 
-			if(sInput != null) sInput.close();
+			if(streamInput != null) streamInput.close();
 		}
-		catch(Exception e) {} // not much else I can do
+		catch(Exception e) {}
 		try {
-			if(sOutput != null) sOutput.close();
+			if(streamOutput != null) streamOutput.close();
 		}
-		catch(Exception e) {} // not much else I can do
+		catch(Exception e) {}
         try{
 			if(socket != null) socket.close();
 		}
-		catch(Exception e) {} // not much else I can do
+		catch(Exception e) {}
 	}
 	
 	public void sendMessage(ChatMessage msg)
 	{
 		try {
-			sOutput.writeObject(msg);
+			streamOutput.writeObject(msg);
 		}
-		catch(IOException e) {
-		}
+		catch(IOException e) {}
 	}
 	
 	public void connectToServer(String username)
@@ -104,25 +100,28 @@ public class Client
 	
 	class ListenFromServer extends Thread {
 
-		public void run() {
-			while(true) {
+		public void run() 
+		{
+			while(true) 
+			{
 				try {
-					ChatMessage msg = (ChatMessage) sInput.readObject();
-					// if console mode print the message and add back the prompt
+					ChatMessage msg = (ChatMessage) streamInput.readObject();
+		
 					if(msg.getType() == 1)
 					{
 						model_.setMessageFromServer(msg.getMessage(), msg.getOrigin()); //TO DO user !!!!
 					}
 					else if(msg.getType() == 3)
+					{
 						model_.getUpdateUserList(msg.getUsers());
+					}
 				}
 				catch(IOException e) {
 					model_.setMessageFromServer(("Server has close the connection: " + e), "Server");
 					break;
 				}
 				// can't happen with a String object but need the catch anyhow
-				catch(ClassNotFoundException e2) {
-				}
+				catch(ClassNotFoundException e2) {}
 			}
 		}
 	}

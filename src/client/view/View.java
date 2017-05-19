@@ -16,7 +16,13 @@ import javax.swing.*;
  * @version 1.0
  */
 
-public class View {
+public class View 
+{	
+	private Gui guiObjects_;
+	private GuiCreator guiCreator_;
+	private String username;
+	private boolean connectionIsEstablished;
+	private Vector<String> usersVector;
 	
 	public View()
 	{
@@ -214,8 +220,8 @@ public class View {
 		guiObjects_.disconnect.addActionListener(act);
 	}
 	
-	private class MouseAdapterMod extends MouseAdapter {
-	   
+	private class MouseAdapterMod extends MouseAdapter 
+	{   
 		public void mousePressed(MouseEvent e) {
 			
 	       JLabel label = (JLabel)e.getSource();
@@ -225,12 +231,5 @@ public class View {
 	    	   	addNewConversationTab(label.getName());
 	       }
 	   }
-	}
-	
-	private Gui guiObjects_;
-	private GuiCreator guiCreator_;
-	private String username;
-	private boolean connectionIsEstablished;
-	private Vector<String> usersVector;
-	
+	}	
 }
