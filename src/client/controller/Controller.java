@@ -43,10 +43,7 @@ public class Controller
 			 if(!(view_.getUsername().contains(" ") || view_.getUsername().length() == 0))
 			 {
 				view_.setUsername();
-				 //TO DO
-				 // Connection with server
 				model_.setConnectionWithServer(view_.getUsername());
-				//view_.setTextMessage(" >> Connection with " + view_.getUsername() + " was established :)\n");
 			 }
 			 else
 			 {
@@ -56,16 +53,14 @@ public class Controller
 	}
 	
 	class DisconnectButton implements ActionListener{
-		 public void actionPerformed(ActionEvent e) {
-			 
+		 public void actionPerformed(ActionEvent e) 
+		 {
+			 model_.disconnect();
+			 view_.disableConnection();
 		 }
 	}
 	
-//	class NewConversation implements MouseListener{
-//		public void mouseClicked (MouseEvent e) {
-//			
-//		}
-//	}
+
 			
 	private Model model_;
 	private View view_;

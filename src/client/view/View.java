@@ -24,12 +24,6 @@ public class View {
 		initializeComponents();
 		createServerTab();
 		showMainWindow();
-		
-		//test
-		
-//		addUsersToList("Kazik");
-//		addUsersToList("Karol");
-//		addUsersToList("Staszek");
 	}
 	
 	private void initializeVariables()
@@ -110,6 +104,8 @@ public class View {
 	{
 		Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        int index = guiObjects_.conversations.getSelectedIndex();
+		String name = new String(guiObjects_.conversations.getTitleAt(index));
        
         //check if the tab exists
         if((guiObjects_.conversationMap.get(user)==null) && !user.equals(username))
@@ -119,8 +115,6 @@ public class View {
 		{
 			if(user.equals(username))
 			{
-				int index = guiObjects_.conversations.getSelectedIndex();
-				String name = new String(guiObjects_.conversations.getTitleAt(index));
 				guiObjects_.conversationMap.get(name).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
 				guiObjects_.conversationMap.get(name).append(message + "\n");
 			}			
@@ -172,6 +166,14 @@ public class View {
 		username = getUsername();
 		guiObjects_.usernameField.setEditable(false);
 		connectionIsEstablished = true;
+		guiObjects_.disconnect.setEnabled(true);
+	}
+	
+	public void disableConnection()
+	{
+		guiObjects_.usernameField.setEditable(true);
+		connectionIsEstablished = false;
+		guiObjects_.disconnect.setEnabled(true);
 	}
 				
 	public void showMainWindow()
@@ -209,7 +211,7 @@ public class View {
 	
 	public void disconnectButtonListener(ActionListener act)
 	{
-		guiObjects_.connect.addActionListener(act);
+		guiObjects_.disconnect.addActionListener(act);
 	}
 	
 	private class MouseAdapterMod extends MouseAdapter {

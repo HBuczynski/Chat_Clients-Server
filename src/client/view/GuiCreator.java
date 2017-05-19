@@ -58,6 +58,7 @@ public class GuiCreator {
 		guiObjects_.connect.setLocation(320, 30);
 		
 		guiObjects_.disconnect = new JButton("DISCONNECT");
+		guiObjects_.disconnect.setEnabled(false);
 		guiObjects_.disconnect.setSize(110, 30);
 		guiObjects_.disconnect.setLocation(445, 30);
 		

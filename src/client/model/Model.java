@@ -54,6 +54,11 @@ public class Model {
 		view_.setAppendMessage(msg, user);
 	}
 	
+	public void disconnect()
+	{
+		client_.disconnect();
+	}
+	
 	private Client client_;
 	private View view_;
 	
