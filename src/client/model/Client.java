@@ -28,7 +28,7 @@ public class Client
 		this.server = server;
 		this.port = port;
 		this.username = username;
-		//model_= model;
+		model_= model;
 	}
 	
 	public void initialize()
@@ -43,6 +43,7 @@ public class Client
 		}
 				
 		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
+		System.out.println(msg);
 		model_.setMessageFromServer(msg, "Server");
 		
 		/* Creating both Data Stream */
@@ -106,9 +107,12 @@ public class Client
 		public void run() {
 			while(true) {
 				try {
-					String msg = (String) sInput.readObject();
+					ChatMessage msg = (ChatMessage) sInput.readObject();
 					// if console mode print the message and add back the prompt
-					model_.setMessageFromServer(msg, username); //TO DO user !!!!
+					if(msg.getType() == 1)
+						model_.setMessageFromServer(msg.getMessage(), msg.getOrigin()); //TO DO user !!!!
+					else if(msg.getType() == 3)
+						model_.getUpdateUserList(msg.getUsers());
 				}
 				catch(IOException e) {
 					model_.setMessageFromServer(("Server has close the connection: " + e), "Server");

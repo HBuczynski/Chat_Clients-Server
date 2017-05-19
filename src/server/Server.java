@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 
 import client.model.ChatMessage;
 
@@ -38,6 +39,7 @@ public class Server
 		port = portNumber;
 		gui_ = new GuiServerCreator();
 		run = true;
+		al = new ArrayList<ClientThread>();
 	}
 		
 	public void enable()
@@ -61,6 +63,7 @@ public class Server
 					break;
 				ClientThread t = new ClientThread(socket);  // make a thread of it
 				al.add(t);									// save it in the ArrayList
+				updateList();
 				t.start();
 			}
 			// I was asked to stop
@@ -69,9 +72,9 @@ public class Server
 				for(int i = 0; i < al.size(); ++i) {
 					ClientThread tc = al.get(i);
 					try {
-					tc.sInput.close();
-					tc.sOutput.close();
-					tc.socket.close();
+						tc.sInput.close();
+						tc.sOutput.close();
+						tc.socket.close();
 					}
 					catch(IOException ioE) {
 						// not much I can do
@@ -121,6 +124,25 @@ public class Server
 		}
 	}
 	
+	private synchronized void updateList()
+	{
+		Vector<String> vect = new Vector<String>();
+		
+		for(int i=0; i<al.size(); ++i)
+		{
+			vect.add(al.get(i).username);
+		}
+		
+		ChatMessage chat = new ChatMessage(ChatMessage.USERLIST, "", "", "");
+		chat.setuserList(vect);
+				
+		//send message to all users
+		for(int i=0; i<al.size(); ++i)
+		{
+			al.get(i).writeMsg(chat);
+		}
+	}
+		
 	/** One instance of this thread will run for each client */
 	class ClientThread extends Thread {
 		// the socket where to listen/talk
@@ -189,11 +211,11 @@ public class Server
 						broadcast(chatMessage_);
 						break;
 					case ChatMessage.WHOISIN:
-						writeMsg("List of the users connected at " + sdf.format(new Date()) + "\n");
+						//writeMsg("List of the users connected at " + sdf.format(new Date()) + "\n");
 						// scan al the users connected
 						for(int i = 0; i < al.size(); ++i) {
 							ClientThread ct = al.get(i);
-							writeMsg((i+1) + ") " + ct.username + " since " + ct.date);
+							//writeMsg((i+1) + ") " + ct.username + " since " + ct.date);
 						}
 						break;
 				}

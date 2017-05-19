@@ -1,6 +1,6 @@
 package client.model;
-
 import java.io.*;
+import java.util.Vector;
 /*
  * This class defines the different type of messages that will be exchanged between the
  * Clients and the Server. 
@@ -18,13 +18,18 @@ public class ChatMessage implements Serializable {
 	public static final int WHOISIN = 0;
 	public static final int MESSAGE = 1;
 	public static final int LOGOUT = 2;
+	public static final int USERLIST = 3;
+	
 	private String userDestination;
 	private String userOrigin;
 	private int type;
 	private String message;
 	
+	private Vector<String> userList;
+	
 	// constructor
-	public ChatMessage(int type, String message, String user, String userOrigin) {
+	public ChatMessage(int type, String message, String user, String userOrigin) 
+	{
 		this.type = type;
 		this.message = message;
 		this.userDestination = user;
@@ -32,11 +37,13 @@ public class ChatMessage implements Serializable {
 	}
 	
 	// getters
-	public int getType() {
+	public int getType() 
+	{
 		return type;
 	}
 	
-	public String getMessage() {
+	public String getMessage() 
+	{
 		return message;
 	}
 	
@@ -48,6 +55,16 @@ public class ChatMessage implements Serializable {
 	public String getOrigin()
 	{
 		return userOrigin;
+	}
+	
+	public Vector<String> getUsers()
+	{
+		return userList;
+	}
+	
+	public void setuserList(Vector<String> list)
+	{
+		userList = list;
 	}
 }
 

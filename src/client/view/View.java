@@ -26,9 +26,10 @@ public class View {
 		showMainWindow();
 		
 		//test
-		addUsersToList("Kazik");
-		addUsersToList("Karol");
-		addUsersToList("Staszek");
+		
+//		addUsersToList("Kazik");
+//		addUsersToList("Karol");
+//		addUsersToList("Staszek");
 	}
 	
 	private void initializeVariables()
@@ -68,8 +69,11 @@ public class View {
 	
 	public void addUsersToList(String name)
 	{
-		usersVector.add(name);
-		addUsersToPanel();
+		if(!name.equals(username))
+		{
+			usersVector.add(name);
+			addUsersToPanel();
+		}
 	}
 	
 	public void removeUserFromList(String name)
@@ -77,6 +81,11 @@ public class View {
 		int index = usersVector.indexOf(name);
 		usersVector.remove(index);
 		addUsersToPanel();
+	}
+	
+	public void removeUsersList()
+	{
+		usersVector.removeAllElements();
 	}
 	
 	private void addUsersToPanel()
@@ -106,14 +115,20 @@ public class View {
 		Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         
-		if(connectionIsEstablished && guiObjects_.conversations.getSelectedIndex() !=0)
+        //check if the tab exists
+        if(!guiObjects_.conversationMap.containsKey(user) && !user.equals(username))
+        	addNewConversationTab(user);
+        
+        
+        
+		if(connectionIsEstablished)// && guiObjects_.conversations.getSelectedIndex() !=0)
 		{
 			if(user.equals(username))
 			{
-				int index = guiObjects_.conversations.getSelectedIndex();
-				String name = new String(guiObjects_.conversations.getTitleAt(index));
-				guiObjects_.conversationMap.get(name).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
-				guiObjects_.conversationMap.get(name).append(message + "\n");
+//				int index = guiObjects_.conversations.getSelectedIndex();
+//				String name = new String(guiObjects_.conversations.getTitleAt(index));
+//				guiObjects_.conversationMap.get(name).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
+//				guiObjects_.conversationMap.get(name).append(message + "\n");
 			}			
 			else
 			{

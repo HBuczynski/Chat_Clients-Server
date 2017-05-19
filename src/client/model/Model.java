@@ -30,6 +30,8 @@ public class Model {
 	
 	public void getUpdateUserList(Vector<String> users)
 	{
+		view_.removeUsersList();
+		
 		for(int i=0; i < users.size(); ++i)
 		{
 			view_.addUsersToList(users.get(i));
