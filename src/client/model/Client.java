@@ -6,7 +6,9 @@ import java.net.*;
 import client.model.*;
 
 /**
- *Client represents a user who sends the message to the server.
+ * Client represents a user who sends the message to the server.
+ * Class was being written based on:
+ * http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/
  * 
  * @author HBuczynski
  * @version 1.0
@@ -120,7 +122,6 @@ public class Client
 					model_.setMessageFromServer(("Server has close the connection: " + e), "Server");
 					break;
 				}
-				// can't happen with a String object but need the catch anyhow
 				catch(ClassNotFoundException e2) {}
 			}
 		}

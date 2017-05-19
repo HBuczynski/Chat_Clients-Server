@@ -15,6 +15,8 @@ import client.model.ChatMessage;
 /**
  * Server manages connections between users. This part of application is responsible for authorized users and redirection
  * information between them.
+ * Class was being written based on:
+ * http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/
  * 
  * @author HBuczynski
  * @version 1.0
@@ -24,9 +26,7 @@ public class Server
 {
 	private GuiServerCreator gui_;
 	private static int uniqueId;
-	// an ArrayList to keep the list of the Client
 	private ArrayList<ClientThread> al;
-	// to display time
 	private SimpleDateFormat sdf;
 	private boolean run;
 	private int port;
@@ -146,20 +146,15 @@ public class Server
 	/** One instance of this thread will run for each client */
 	class ClientThread extends Thread 
 	{
-		// the socket where to listen/talk
 		Socket socket;
 		ObjectInputStream sInput;
 		ObjectOutputStream sOutput;
 		// my unique id (easier for deconnection)
 		int id;
-		// the Username of the Client
 		String username;
-		// the only type of message a will receive
 		ChatMessage chatMessage_;
-		// the date I connect
 		String date;
 
-		// Constructore
 		ClientThread(Socket socket) 
 		{
 			// a unique id
@@ -172,8 +167,6 @@ public class Server
 				// create output first
 				sOutput = new ObjectOutputStream(socket.getOutputStream());
 				sInput  = new ObjectInputStream(socket.getInputStream());
-				// read the username
-				//TO DO
 				username = (String) sInput.readObject();
 				gui_.addMessage(username + " just connected.");
 			}
@@ -182,17 +175,15 @@ public class Server
 				gui_.addMessage("Exception creating new Input/output Streams: " + e);
 				return;
 			}
-			// have to catch ClassNotFoundException
-			// but I read a String, I am sure it will work
+
 			catch (ClassNotFoundException e) {}
-            date = new Date().toString() + "\n";
+            
+			date = new Date().toString() + "\n";
 		}
 
 		public void run() 
 		{
-
 			boolean keepGoing = true;
-			
 			while(keepGoing) 
 			{
 				try {
@@ -207,20 +198,9 @@ public class Server
 				}
 				String message = chatMessage_.getMessage();
 
-				// Switch on the type of message receive
-				switch(chatMessage_.getType()) 
+				if(chatMessage_.getType() == (ChatMessage.MESSAGE))
 				{
-					case ChatMessage.MESSAGE:
 						broadcast(chatMessage_);
-						break;
-					case ChatMessage.WHOISIN:
-						//writeMsg("List of the users connected at " + sdf.format(new Date()) + "\n");
-						// scan al the users connected
-						for(int i = 0; i < al.size(); ++i) {
-							ClientThread ct = al.get(i);
-							//writeMsg((i+1) + ") " + ct.username + " since " + ct.date);
-						}
-						break;
 				}
 			}
 			// remove myself from the arrayList containing the list of the
