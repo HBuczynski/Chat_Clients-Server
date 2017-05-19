@@ -6,7 +6,6 @@ public class Main {
 	// akcpetowac tylko roznych uzytkownikow
 	// dodac port i adres hosta do GUI
 	// usunac uml
-	// zrefaktoryzowac klasy
 	
 	public static void main(String[] args) 
 	{
