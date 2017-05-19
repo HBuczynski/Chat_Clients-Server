@@ -15,6 +15,11 @@ public class Gui {
 	public JFrame mainFrame;
 	public JLabel userLabel;
 	public JLabel onlineUsers;
+	public JLabel hostLabel;
+	public JLabel portLabel;
+	
+	public JTextField portField;
+	public JTextField hostField;
 	public JTextField usernameField;
 	public JPanel panel;
 	
