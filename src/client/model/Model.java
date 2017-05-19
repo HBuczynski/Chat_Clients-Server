@@ -40,7 +40,7 @@ public class Model {
 	
 	public void redirectMessageToServer(String message, String dest)
 	{
-		client_.sendMessage(new ChatMessage(ChatMessage.MESSAGE, message, view_.getUsername(), dest));
+		client_.sendMessage(new ChatMessage(ChatMessage.MESSAGE, message, dest, view_.getUsername()));
 	}
 	
 	public void setConnectionWithServer(String userName)

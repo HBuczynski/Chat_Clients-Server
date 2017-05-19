@@ -20,7 +20,7 @@ public class Client
 	private Socket socket;
 	
 	// the server, the port and the username
-	private String server, username;
+	public String server, username;
 	private int port;
 	
 	public Client(String server, int port, String username, Model model)
@@ -110,7 +110,9 @@ public class Client
 					ChatMessage msg = (ChatMessage) sInput.readObject();
 					// if console mode print the message and add back the prompt
 					if(msg.getType() == 1)
+					{
 						model_.setMessageFromServer(msg.getMessage(), msg.getOrigin()); //TO DO user !!!!
+					}
 					else if(msg.getType() == 3)
 						model_.getUpdateUserList(msg.getUsers());
 				}

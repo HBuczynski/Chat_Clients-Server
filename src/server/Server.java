@@ -110,11 +110,13 @@ public class Server
 	 */
 	private synchronized void broadcast(ChatMessage chat) 
 	{
+		ClientThread ct;
 		for(int i = al.size(); --i >= 0;) 
 		{
-			ClientThread ct = al.get(i);
+			ct = al.get(i);
 			if(ct.username.equals(chat.getDestination()))
 			{
+				System.out.println("Broadcst:" +ct.username);
 			// try to write to the Client if it fails remove it from the list
 				if(!ct.writeMsg(chat)) {
 					al.remove(i);
@@ -171,6 +173,7 @@ public class Server
 				sOutput = new ObjectOutputStream(socket.getOutputStream());
 				sInput  = new ObjectInputStream(socket.getInputStream());
 				// read the username
+				//TO DO
 				username = (String) sInput.readObject();
 				gui_.addMessage(username + " just connected.");
 			}

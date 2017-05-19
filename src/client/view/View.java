@@ -55,11 +55,7 @@ public class View {
 	private void addNewConversationTab(String userName)
 	{	
 		guiObjects_.conversationMap.put(userName, new JTextArea());
-		guiObjects_.conversationMap.get(userName).setLineWrap(true);
-		
-		if(userName.equals("Server"))
-				guiObjects_.conversationMap.get(userName).setText(" >> ");
-		
+		guiObjects_.conversationMap.get(userName).setLineWrap(true);	
 		guiObjects_.conversationMap.get(userName).setEditable(false);
 		guiObjects_.conversationMap.get(userName).setFont(new Font("Arial", Font.PLAIN, 16));
 		guiObjects_.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -114,21 +110,19 @@ public class View {
 	{
 		Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        
+       
         //check if the tab exists
-        if(!guiObjects_.conversationMap.containsKey(user) && !user.equals(username))
+        if((guiObjects_.conversationMap.get(user)==null) && !user.equals(username))
         	addNewConversationTab(user);
-        
-        
-        
+               
 		if(connectionIsEstablished)// && guiObjects_.conversations.getSelectedIndex() !=0)
 		{
 			if(user.equals(username))
 			{
-//				int index = guiObjects_.conversations.getSelectedIndex();
-//				String name = new String(guiObjects_.conversations.getTitleAt(index));
-//				guiObjects_.conversationMap.get(name).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
-//				guiObjects_.conversationMap.get(name).append(message + "\n");
+				int index = guiObjects_.conversations.getSelectedIndex();
+				String name = new String(guiObjects_.conversations.getTitleAt(index));
+				guiObjects_.conversationMap.get(name).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
+				guiObjects_.conversationMap.get(name).append(message + "\n");
 			}			
 			else
 			{

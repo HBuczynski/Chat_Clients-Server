@@ -60,7 +60,6 @@ public class GuiServerCreator extends JFrame
 	{
 		addMessage("Initialization has been successful.");
 		addMessage("Waiting on users ...");
-		addMessage(" ");
 	}
 	
 	public void addMessage(String message)
