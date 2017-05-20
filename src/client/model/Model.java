@@ -13,23 +13,38 @@ import client.view.View;
  * @version 1.0
  */
 
-public class Model {
-	
+public class Model 
+{	
 	private Client client_;
 	private View view_;
 	
 	public Model()
-	{
-		
-	}
+	{}
 	
+	//method provide connection with view
 	public void setView(View view)
 	{
 		view_ = view;
 	}
 	
+	//initialize connection with server after "Connect" button is pressed
+	public void setConnectionWithServer(String userName, String hostName, int portNumber)
+	{
+		client_ = new Client(hostName, portNumber, view_.getUsername(), this);
+		client_.initialize();
+	}
+	
+	//send message from user to server
+	//message object consists information about sender and recipient 
+	public void redirectMessageToServer(String message, String dest)
+	{
+		client_.sendMessage(new ChatMessage(ChatMessage.MESSAGE, message, dest, view_.getUsername()));
+	}
+	
+	//update users list which is situated on the left side of user interface
 	public void getUpdateUserList(Vector<String> users)
 	{
+		//the old list is removed
 		view_.removeUsersList();
 		
 		for(int i=0; i < users.size(); ++i)
@@ -38,28 +53,22 @@ public class Model {
 		}
 	}
 	
-	public void redirectMessageToServer(String message, String dest)
-	{
-		client_.sendMessage(new ChatMessage(ChatMessage.MESSAGE, message, dest, view_.getUsername()));
-	}
-	
-	public void setConnectionWithServer(String userName, String hostName, int portNumber)
-	{
-		client_ = new Client(hostName, portNumber, view_.getUsername(), this);
-		client_.initialize();
-	}
-	
+	//redirect message from server to GUI
+	//server send information about sender
 	public void setMessageFromServer(String msg, String user)
 	{
 		view_.setAppendMessage(msg, user);
 	}
 	
+	//each user name should be unique
+    //server send information if some name exists in its database
 	public void loggFailed(String msg, String user)
 	{
 		view_.setAppendMessage(msg, user);
 		view_.loggAgain();
 	}
 	
+	//break connection with server
 	public void disconnect()
 	{
 		client_.disconnect();

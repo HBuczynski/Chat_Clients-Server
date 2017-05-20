@@ -6,7 +6,7 @@ import client.model.Model;
 import client.view.View;
 
 /**
- * Controller manages a connection between model and view.
+ * Controller manages a connection between model and view. This class consists object of model and view.
  * 
  * @author HBuczynski
  * @version 1.0
@@ -46,6 +46,7 @@ public class Controller
 	{
 		 public void actionPerformed(ActionEvent e) 
 		 {
+			 //variable checks if the fields are filled correctly
 			 boolean connectionCondition = true;
 			 connectionCondition = connectionCondition && (!(view_.getUsername().contains(" ") || view_.getUsername().length() == 0));
 			 connectionCondition = connectionCondition && (!(view_.getHostName().contains(" ") || view_.getHostName().length() == 0));

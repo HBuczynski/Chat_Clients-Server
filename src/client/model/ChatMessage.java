@@ -6,7 +6,8 @@ import java.util.Vector;
  * This class defines the different type of messages that will be exchanged between the
  * Clients and the Server. 
  * When talking from a Java Client to a Java Server a lot easier to pass Java objects, no 
- * need to count bytes or to wait for a line feed at the end of the frame
+ * need to count bytes or to wait for a line feed at the end of the frame.
+ * In oder to send messages by socket, it implements Serializable interface.
  * Class was being written based on:
  * http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/
  * 

@@ -41,17 +41,21 @@ public class View
 		connectionIsEstablished = false;
 	}
 	
+	//initialize GUI and action listeners
 	private void initializeComponents()
 	{
 		guiCreator_.initialize();
 		this.conversationButtonAcion();			
 	}
 	
+	//basic tab consists information from server
+	//this tab cannot be removed
 	private void createServerTab()
 	{
 		addNewConversationTab("Server");
 	}
 	
+	//if new message is come, the new tab is created and the view is switched into this component
 	private void addNewConversationTab(String userName)
 	{	
 		guiObjects_.conversationMap.put(userName, new JTextArea());
@@ -65,6 +69,7 @@ public class View
 		guiObjects_.conversations.setSelectedIndex(index);
 	}
 	
+	//Method adds new users to vector
 	public void addUsersToList(String name)
 	{
 		if(!name.equals(username))
@@ -74,6 +79,7 @@ public class View
 		}
 	}
 	
+	//Specific user is removed from users list
 	public void removeUserFromList(String name)
 	{
 		int index = usersVector.indexOf(name);
@@ -86,6 +92,7 @@ public class View
 		usersVector.removeAllElements();
 	}
 	
+	//Users are added to panel situated on the left side of UI
 	private void addUsersToPanel()
 	{
 		MouseAdapterMod mouseAdapter = new MouseAdapterMod();
@@ -104,10 +111,10 @@ public class View
 			
 			guiObjects_.usersPanel.add(newUser);
 		}
-		
 		guiObjects_.usersPanel.repaint();
 	}
 	
+	//New message is added to conversation
 	public void setAppendMessage(String message, String user)
 	{
 		Calendar cal = Calendar.getInstance();

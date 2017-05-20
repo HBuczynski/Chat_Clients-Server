@@ -111,7 +111,6 @@ public class Server
 			ct = clientList.get(i);
 			if(ct.username.equals(chat.getDestination()))
 			{
-				System.out.println("Broadcst:" +ct.username);
 				if(!ct.writeMsg(chat)) {
 					clientList.remove(i);
 					gui_.addMessage("Disconnected Client " + ct.username + " removed from list.");
