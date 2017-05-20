@@ -181,6 +181,8 @@ public class View
 	{
 		username = getUsername();
 		guiObjects_.usernameField.setEditable(false);
+		guiObjects_.hostField.setEditable(false);
+		guiObjects_.portField.setEditable(false);
 		connectionIsEstablished = true;
 		guiObjects_.disconnect.setEnabled(true);
 	}
@@ -190,6 +192,16 @@ public class View
 		guiObjects_.usernameField.setEditable(true);
 		connectionIsEstablished = false;
 		guiObjects_.disconnect.setEnabled(true);
+	}
+	
+	public void loggAgain()
+	{
+		guiObjects_.usernameField.setEditable(true);
+		guiObjects_.hostField.setEditable(true);
+		guiObjects_.portField.setEditable(true);
+		guiObjects_.usernameField.setText("");
+		
+		guiObjects_.disconnect.setEnabled(false);
 	}
 				
 	public void showMainWindow()

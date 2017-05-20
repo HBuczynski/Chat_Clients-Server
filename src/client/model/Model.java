@@ -54,6 +54,12 @@ public class Model {
 		view_.setAppendMessage(msg, user);
 	}
 	
+	public void loggFailed(String msg, String user)
+	{
+		view_.setAppendMessage(msg, user);
+		view_.loggAgain();
+	}
+	
 	public void disconnect()
 	{
 		client_.disconnect();

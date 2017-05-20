@@ -43,9 +43,9 @@ public class Client
 			model_.setMessageFromServer(("Error connectiong to server:" + ec), "Server");
 		}
 				
-		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
-		System.out.println(msg);
-		model_.setMessageFromServer(msg, "Server");
+//		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
+//		System.out.println(msg);
+//		model_.setMessageFromServer(msg, "Server");
 		
 		/* Creating both Data Stream */
 		try
@@ -116,6 +116,10 @@ public class Client
 					else if(msg.getType() == 3)
 					{
 						model_.getUpdateUserList(msg.getUsers());
+					}
+					else if(msg.getType() == 2)
+					{
+						model_.loggFailed(msg.getMessage(), msg.getOrigin());
 					}
 				}
 				catch(IOException e) {

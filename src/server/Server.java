@@ -58,10 +58,14 @@ public class Server
 				// if I was asked to stop
 				if(!run)
 					break;
-				ClientThread t = new ClientThread(socket);  // make a thread of it
-				al.add(t);									// save it in the ArrayList
-				updateList();
-				t.start();
+				ClientThread client = new ClientThread(socket);  // make a thread of it
+				
+				if(client.getNameStatus())
+				{
+					al.add(client);									// save it in the ArrayList
+					updateList();
+					client.start();
+				}
 			}
 			// I was asked to stop
 			try {
@@ -142,24 +146,36 @@ public class Server
 			al.get(i).writeMsg(chat);
 		}
 	}
+	
+	public boolean checkUsername(String name)
+	{
+		for(int i = al.size(); --i >= 0;) 
+		{
+			if((al.get(i).username).equals(name))
+				return false;
+		}
+		return true;
+	}
 		
 	/** One instance of this thread will run for each client */
 	class ClientThread extends Thread 
 	{
-		Socket socket;
-		ObjectInputStream sInput;
-		ObjectOutputStream sOutput;
+		private Socket socket;
+		private ObjectInputStream sInput;
+		private ObjectOutputStream sOutput;
 		// my unique id (easier for deconnection)
-		int id;
-		String username;
-		ChatMessage chatMessage_;
-		String date;
+		private int id;
+		private boolean acceptedName = false;
+		private String username;
+		private ChatMessage chatMessage_;
+		private String date;
 
 		ClientThread(Socket socket) 
 		{
 			// a unique id
 			id = ++uniqueId;
 			this.socket = socket;
+			
 			/* Creating both Data Stream */
 			System.out.println("Thread trying to create Object Input/Output Streams");
 			try
@@ -168,7 +184,23 @@ public class Server
 				sOutput = new ObjectOutputStream(socket.getOutputStream());
 				sInput  = new ObjectInputStream(socket.getInputStream());
 				username = (String) sInput.readObject();
-				gui_.addMessage(username + " just connected.");
+				
+				if(checkUsername(username))
+				{
+					gui_.addMessage(username + " just connected.");
+					acceptedName = true;
+					String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
+					ChatMessage info = new ChatMessage(ChatMessage.MESSAGE, msg, username, "Server");
+					writeMsg(info);
+				}
+				else
+				{
+					gui_.addMessage("Such name: " + username + " exists in database." );
+					String msg = "Such name: " + username + " exists in database. Change your name!" ;
+					ChatMessage info = new ChatMessage(ChatMessage.LOGOUT, msg, username, "Server");
+					writeMsg(info);
+					--uniqueId;
+				}
 			}
 			catch (IOException e) 
 			{
@@ -180,7 +212,12 @@ public class Server
             
 			date = new Date().toString() + "\n";
 		}
-
+		
+		public boolean getNameStatus()
+		{
+			return acceptedName;
+		}
+		
 		public void run() 
 		{
 			boolean keepGoing = true;
@@ -200,7 +237,7 @@ public class Server
 
 				if(chatMessage_.getType() == (ChatMessage.MESSAGE))
 				{
-						broadcast(chatMessage_);
+					broadcast(chatMessage_);
 				}
 			}
 			// remove myself from the arrayList containing the list of the
