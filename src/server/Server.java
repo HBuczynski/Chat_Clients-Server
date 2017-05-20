@@ -26,8 +26,8 @@ public class Server
 {
 	private GuiServerCreator gui_;
 	private static int uniqueId;
-	private ArrayList<ClientThread> al;
-	private SimpleDateFormat sdf;
+	private ArrayList<ClientThread> clientList;
+	private SimpleDateFormat dataFormat;
 	private boolean run;
 	private int port;
 		
@@ -36,13 +36,13 @@ public class Server
 		port = portNumber;
 		gui_ = new GuiServerCreator();
 		run = true;
-		al = new ArrayList<ClientThread>();
+		clientList = new ArrayList<ClientThread>();
 	}
 		
 	public void enable()
 	{
 		run = true;
-		/* create socket server and wait for connection requests */
+		// create socket server and wait for connection requests 
 		try 
 		{
 			// the socket used by the server
@@ -54,74 +54,66 @@ public class Server
 				// format message saying we are waiting
 				gui_.addMessage("Server waiting for Clients on port " + port + ".");
 				
-				Socket socket = serverSocket.accept();  	// accept connection
-				// if I was asked to stop
+				Socket socket = serverSocket.accept();  	
 				if(!run)
 					break;
-				ClientThread client = new ClientThread(socket);  // make a thread of it
+				ClientThread client = new ClientThread(socket);  
 				
 				if(client.getNameStatus())
 				{
-					al.add(client);									// save it in the ArrayList
+					clientList.add(client);							
 					updateList();
 					client.start();
 				}
 			}
-			// I was asked to stop
 			try {
 				serverSocket.close();
-				for(int i = 0; i < al.size(); ++i) {
-					ClientThread tc = al.get(i);
+				for(int i = 0; i < clientList.size(); ++i) {
+					ClientThread tc = clientList.get(i);
 					try {
 						tc.sInput.close();
 						tc.sOutput.close();
 						tc.socket.close();
 					}
-					catch(IOException ioE) {
-						// not much I can do
-					}
+					catch(IOException ioE) {}
 				}
 			}
 			catch(Exception e) {
 				gui_.addMessage("Exception closing the server and clients: " + e);
 			}
 		}
-		// something went bad
 		catch (IOException e) {
-            String msg = sdf.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
+            String msg = dataFormat.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
             gui_.addMessage(msg);
 		}
 	}
 	
-	// for a client who logoff using the LOGOUT message
 	synchronized void remove(int id) 
 	{
 		// scan the array list until we found the Id
-		for(int i = 0; i < al.size(); ++i) 
+		for(int i = 0; i < clientList.size(); ++i) 
 		{
-			ClientThread ct = al.get(i);
+			ClientThread ct = clientList.get(i);
 			if(ct.id == id) 
 			{
-				al.remove(i);
+				clientList.remove(i);
 				return;
 			}
 		}
 	}
 	
-	/*
-	 *  to broadcast a message to all Clients
-	 */
+	//broadcast a message to all Clients
 	private synchronized void broadcast(ChatMessage chat) 
 	{
 		ClientThread ct;
-		for(int i = al.size(); --i >= 0;) 
+		for(int i = clientList.size(); --i >= 0;) 
 		{
-			ct = al.get(i);
+			ct = clientList.get(i);
 			if(ct.username.equals(chat.getDestination()))
 			{
 				System.out.println("Broadcst:" +ct.username);
 				if(!ct.writeMsg(chat)) {
-					al.remove(i);
+					clientList.remove(i);
 					gui_.addMessage("Disconnected Client " + ct.username + " removed from list.");
 				}
 			}
@@ -132,26 +124,26 @@ public class Server
 	{
 		Vector<String> vect = new Vector<String>();
 		
-		for(int i=0; i<al.size(); ++i)
+		for(int i=0; i<clientList.size(); ++i)
 		{
-			vect.add(al.get(i).username);
+			vect.add(clientList.get(i).username);
 		}
 		
 		ChatMessage chat = new ChatMessage(ChatMessage.USERLIST, "", "", "");
 		chat.setuserList(vect);
 				
 		//send message to all users
-		for(int i=0; i<al.size(); ++i)
+		for(int i=0; i<clientList.size(); ++i)
 		{
-			al.get(i).writeMsg(chat);
+			clientList.get(i).writeMsg(chat);
 		}
 	}
 	
 	public boolean checkUsername(String name)
 	{
-		for(int i = al.size(); --i >= 0;) 
+		for(int i = clientList.size(); --i >= 0;) 
 		{
-			if((al.get(i).username).equals(name))
+			if((clientList.get(i).username).equals(name))
 				return false;
 		}
 		return true;
@@ -163,7 +155,6 @@ public class Server
 		private Socket socket;
 		private ObjectInputStream sInput;
 		private ObjectOutputStream sOutput;
-		// my unique id (easier for deconnection)
 		private int id;
 		private boolean acceptedName = false;
 		private String username;
@@ -176,7 +167,7 @@ public class Server
 			id = ++uniqueId;
 			this.socket = socket;
 			
-			/* Creating both Data Stream */
+			// Creating both Data Stream
 			System.out.println("Thread trying to create Object Input/Output Streams");
 			try
 			{
@@ -246,9 +237,7 @@ public class Server
 			close();
 		}
 		
-		/*
-		 * Write a String to the Client output stream
-		 */
+		// Write a String to the Client output stream
 		private boolean writeMsg(ChatMessage msg) 
 		{
 			// if Client is still connected send the message to it

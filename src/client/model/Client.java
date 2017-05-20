@@ -16,11 +16,10 @@ import client.model.*;
 public class Client
 {
 	private Model model_;
-	private ObjectInputStream streamInput;		// to read from the socket
+	private ObjectInputStream streamInput;			// to read from the socket
 	private ObjectOutputStream streamOutput;		// to write on the socket
 	private Socket socket;
 	
-	// the server, the port and the username
 	public String username;
 	private String server;
 	private int port;
@@ -42,12 +41,8 @@ public class Client
 		catch(Exception ec) {
 			model_.setMessageFromServer(("Error connectiong to server:" + ec), "Server");
 		}
-				
-//		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
-//		System.out.println(msg);
-//		model_.setMessageFromServer(msg, "Server");
 		
-		/* Creating both Data Stream */
+		// Creating both Data Stream
 		try
 		{
 			streamInput  = new ObjectInputStream(socket.getInputStream());
@@ -59,6 +54,7 @@ public class Client
 
 		// creates the Thread to listen from the server 
 		new ListenFromServer().start();
+		
 		// Send our username to the server this is the only message that we
 		// will send as a String. All other messages will be ChatMessage objects
 		try

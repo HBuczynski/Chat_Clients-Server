@@ -1,10 +1,7 @@
 package server;
 
-public class Main {
-
-	//TO DO
-	// akcpetowac tylko roznych uzytkownikow
-	
+public class Main 
+{
 	public static void main(String[] args) 
 	{
 		int portNumber = 1500;

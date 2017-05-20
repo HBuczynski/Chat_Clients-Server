@@ -19,7 +19,7 @@ import javax.swing.*;
 public class View 
 {	
 	private Gui guiObjects_;
-	private GuiCreator guiCreator_;
+	private GuiClientCreator guiCreator_;
 	private String username;
 	private boolean connectionIsEstablished;
 	private Vector<String> usersVector;
@@ -35,7 +35,7 @@ public class View
 	private void initializeVariables()
 	{
 		guiObjects_ = new Gui();
-		guiCreator_ = new GuiCreator(guiObjects_);
+		guiCreator_ = new GuiClientCreator(guiObjects_);
 		usersVector = new Vector<String>();
 		
 		connectionIsEstablished = false;
@@ -117,7 +117,7 @@ public class View
         if((guiObjects_.conversationMap.get(user)==null) && !user.equals(username))
         	addNewConversationTab(user);
                
-		if(connectionIsEstablished)// && guiObjects_.conversations.getSelectedIndex() !=0)
+		if(connectionIsEstablished)
 		{
 			if(user.equals(username))
 			{
@@ -219,8 +219,8 @@ public class View
 				{			
 					int index = guiObjects_.conversations.getSelectedIndex();
 					String name = new String(guiObjects_.conversations.getTitleAt(index));
-					guiObjects_.conversationMap.remove(name);
 					
+					guiObjects_.conversationMap.remove(name);
 					guiObjects_.conversations.remove(guiObjects_.conversations.getSelectedIndex());
 				}
 			}
@@ -244,8 +244,8 @@ public class View
 	
 	private class MouseAdapterMod extends MouseAdapter 
 	{   
-		public void mousePressed(MouseEvent e) {
-			
+		public void mousePressed(MouseEvent e) 
+		{	
 	       JLabel label = (JLabel)e.getSource();
 	       
 	       if(!guiObjects_.conversationMap.containsKey(label.getName()))

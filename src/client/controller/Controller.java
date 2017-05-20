@@ -51,7 +51,6 @@ public class Controller
 			 connectionCondition = connectionCondition && (!(view_.getHostName().contains(" ") || view_.getHostName().length() == 0));
 			 connectionCondition = connectionCondition && (!(view_.getPortName().contains(" ") || view_.getPortName().length() == 0));
 			 			
-			 
 			 try
 			 {
 				 int number = Integer.parseInt(view_.getPortName());

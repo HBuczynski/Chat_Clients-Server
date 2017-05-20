@@ -11,9 +11,9 @@ import java.util.HashMap;
  * @version 1.0
  */
 
-public class GuiCreator {
+public class GuiClientCreator {
 
-	public GuiCreator(Gui gui)
+	public GuiClientCreator(Gui gui)
 	{
 		guiObjects_ = gui;
 		initialize();
