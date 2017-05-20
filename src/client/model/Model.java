@@ -15,8 +15,6 @@ import client.view.View;
 
 public class Model {
 	
-	private int port = 1500;
-	private String host = "localhost";
 	private Client client_;
 	private View view_;
 	
@@ -45,9 +43,9 @@ public class Model {
 		client_.sendMessage(new ChatMessage(ChatMessage.MESSAGE, message, dest, view_.getUsername()));
 	}
 	
-	public void setConnectionWithServer(String userName)
+	public void setConnectionWithServer(String userName, String hostName, int portNumber)
 	{
-		client_ = new Client(host, port, view_.getUsername(), this);
+		client_ = new Client(hostName, portNumber, view_.getUsername(), this);
 		client_.initialize();
 	}
 	

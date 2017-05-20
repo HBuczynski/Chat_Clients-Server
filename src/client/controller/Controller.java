@@ -46,14 +46,28 @@ public class Controller
 	{
 		 public void actionPerformed(ActionEvent e) 
 		 {
-			 if(!(view_.getUsername().contains(" ") || view_.getUsername().length() == 0))
+			 boolean connectionCondition = true;
+			 connectionCondition = connectionCondition && (!(view_.getUsername().contains(" ") || view_.getUsername().length() == 0));
+			 connectionCondition = connectionCondition && (!(view_.getHostName().contains(" ") || view_.getHostName().length() == 0));
+			 connectionCondition = connectionCondition && (!(view_.getPortName().contains(" ") || view_.getPortName().length() == 0));
+			 			
+			 
+			 try
 			 {
-				view_.setUsername();
-				model_.setConnectionWithServer(view_.getUsername());
+				 int number = Integer.parseInt(view_.getPortName());
+				 if(connectionCondition)
+				 {
+					view_.setUsername();
+					model_.setConnectionWithServer(view_.getUsername(), view_.getHostName(), number);
+				 }
+				 else
+				 {
+					 view_.setTextMessage(" >>  Connection is not established. "	+ "\n >>  Please fill fields and push the connect button.\n");
+				 }
 			 }
-			 else
+			 catch(NumberFormatException nfe)
 			 {
-				 view_.setTextMessage(" >>  Connection is not established. "	+ "\n >>  Please write correct username and push the connect button.");
+				 view_.setTextMessage(" >>  Connection is not established. "	+ "\n >>  Please port's field has to contain number.\n");
 			 }
 		 }
 	}

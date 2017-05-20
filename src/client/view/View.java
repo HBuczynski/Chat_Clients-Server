@@ -160,6 +160,16 @@ public class View
 		return guiObjects_.usernameField.getText();
 	}
 	
+	public String getHostName()
+	{
+		return guiObjects_.hostField.getText();
+	}
+	
+	public String getPortName()
+	{
+		return guiObjects_.portField.getText();
+	}
+	
 	public String destinationUser()
 	{
 		int index = guiObjects_.conversations.getSelectedIndex();

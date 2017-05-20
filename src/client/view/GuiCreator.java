@@ -65,7 +65,7 @@ public class GuiCreator {
 		guiObjects_.hostLabel.setLocation(340, 10);
 		guiObjects_.hostLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		
-		guiObjects_.hostField = new JTextField();
+		guiObjects_.hostField = new JTextField("localhost");
 		guiObjects_.hostField.setSize(120, 30);
 		guiObjects_.hostField.setLocation(410, 15);
 		guiObjects_.hostField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -75,7 +75,7 @@ public class GuiCreator {
 		guiObjects_.portLabel.setLocation(560, 10);
 		guiObjects_.portLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		
-		guiObjects_.portField = new JTextField();
+		guiObjects_.portField = new JTextField("1500");
 		guiObjects_.portField.setSize(120, 30);
 		guiObjects_.portField.setLocation(635, 15);
 		guiObjects_.portField.setFont(new Font("Arial", Font.PLAIN, 16));
