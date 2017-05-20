@@ -32,6 +32,7 @@ public class GuiCreator {
 	{
 		guiObjects_.mainFrame = new JFrame("Chatu-chatu");
 		guiObjects_.mainFrame.setSize(800, 700);
+		guiObjects_.mainFrame.setResizable(false);
 		guiObjects_.mainFrame.setLocationRelativeTo(null);
 		guiObjects_.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
