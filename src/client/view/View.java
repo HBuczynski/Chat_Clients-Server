@@ -61,6 +61,8 @@ public class View
 		guiObjects_.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		guiObjects_.conversations.addTab(userName, new JScrollPane(guiObjects_.conversationMap.get(userName)));
+		int index = guiObjects_.conversations.indexOfTab(userName);
+		guiObjects_.conversations.setSelectedIndex(index);
 	}
 	
 	public void addUsersToList(String name)

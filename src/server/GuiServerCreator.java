@@ -41,7 +41,6 @@ public class GuiServerCreator extends JFrame
 		this.setTitle("Server Output");
 		this.setSize(500, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 	}
 	
 	private void initializeComponents()
@@ -50,6 +49,7 @@ public class GuiServerCreator extends JFrame
 		panel.setOpaque(true);
 		panel.setBackground(Color.lightGray);
 		panel.setLayout(null);
+		
 		this.setContentPane(panel);
 		
 		textArea = new JTextArea();
