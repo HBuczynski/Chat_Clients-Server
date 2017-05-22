@@ -46,8 +46,8 @@ public class Model
 	{
 		//the old list is removed
 		view_.removeUsersList();
-		
-		for(int i=0; i < users.size(); ++i)
+		view_.clearUSerPanel();
+		for(int i=0; i < users.size(); i++)
 		{
 			view_.addUsersToList(users.get(i));
 		}
@@ -71,6 +71,7 @@ public class Model
 	//break connection with server
 	public void disconnect()
 	{
+		client_.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "log", "Server", view_.getUsername()));
 		client_.disconnect();
 	}	
 }

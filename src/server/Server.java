@@ -100,6 +100,8 @@ public class Server
 				return;
 			}
 		}
+		System.out.println("\nW liscie jest; " + clientList.size());
+		updateList();
 	}
 	
 	//broadcast a message to all Clients
@@ -132,7 +134,7 @@ public class Server
 		chat.setuserList(vect);
 				
 		//send message to all users
-		for(int i=0; i<clientList.size(); ++i)
+		for(int i=0; i<clientList.size(); i++)
 		{
 			clientList.get(i).writeMsg(chat);
 		}
@@ -223,11 +225,15 @@ public class Server
 				catch(ClassNotFoundException e2) {
 					break;
 				}
-				String message = chatMessage_.getMessage();
 
 				if(chatMessage_.getType() == (ChatMessage.MESSAGE))
 				{
 					broadcast(chatMessage_);
+				}
+				else if(chatMessage_.getType() == ChatMessage.LOGOUT)
+				{
+					remove(id);
+					close();
 				}
 			}
 			// remove myself from the arrayList containing the list of the

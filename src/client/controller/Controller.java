@@ -78,6 +78,7 @@ public class Controller
 		 {
 			 model_.disconnect();
 			 view_.disableConnection();
+			 view_.clearUSerPanel();
 		 }
 	}
 }

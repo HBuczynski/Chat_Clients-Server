@@ -10,8 +10,8 @@ import java.util.*;
  * @version 1.0
  */
 
-public class Gui {
-	
+public class Gui 
+{	
 	public JFrame mainFrame;
 	public JLabel userLabel;
 	public JLabel onlineUsers;

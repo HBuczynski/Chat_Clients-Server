@@ -92,6 +92,13 @@ public class View
 		usersVector.removeAllElements();
 	}
 	
+	public void clearUSerPanel()
+	{
+		guiObjects_.usersPanel.removeAll();
+		guiObjects_.usersPanel.revalidate();
+		guiObjects_.usersPanel.repaint();
+	}
+	
 	//Users are added to panel situated on the left side of UI
 	private void addUsersToPanel()
 	{
