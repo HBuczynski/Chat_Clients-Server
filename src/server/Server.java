@@ -111,6 +111,7 @@ public class Server
 		for(int i = clientList.size(); --i >= 0;) 
 		{
 			ct = clientList.get(i);
+			// find the destination of the message
 			if(ct.username.equals(chat.getDestination()))
 			{
 				if(!ct.writeMsg(chat)) {
@@ -121,6 +122,7 @@ public class Server
 		}
 	}
 	
+	// send information about active users to each client
 	private synchronized void updateList()
 	{
 		Vector<String> vect = new Vector<String>();
@@ -140,6 +142,7 @@ public class Server
 		}
 	}
 	
+	// check if name is currently occupied
 	public boolean checkUsername(String name)
 	{
 		for(int i = clientList.size(); --i >= 0;) 
@@ -150,7 +153,7 @@ public class Server
 		return true;
 	}
 		
-	/** One instance of this thread will run for each client */
+	// One instance of this thread will run for each client 
 	class ClientThread extends Thread 
 	{
 		private Socket socket;

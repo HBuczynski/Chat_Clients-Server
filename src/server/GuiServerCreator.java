@@ -40,6 +40,7 @@ public class GuiServerCreator extends JFrame
 	{
 		this.setTitle("Server Output");
 		this.setSize(500, 800);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	

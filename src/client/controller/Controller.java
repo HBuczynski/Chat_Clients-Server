@@ -32,12 +32,16 @@ public class Controller
 		view_.disconnectButtonListener(new DisconnectButton());
 	}
 		
+	// iF send button is clicked the appropriate methods are performed
 	class SendButton implements ActionListener
 	{
 		 public void actionPerformed(ActionEvent e) 
 		 {
+			 //send message to server via model class which represents the client
 			 model_.redirectMessageToServer(view_.getMessage(), view_.destinationUser());
+			 //redirect message from bottom text field to top conversation area
 			 view_.setAppendMessage(view_.getMessage(), view_.getUsername());
+			 //clear bottom text area after send button has been clicked
 			 view_.clearUserArea();
 		 }
 	}
@@ -57,6 +61,7 @@ public class Controller
 				 int number = Integer.parseInt(view_.getPortName());
 				 if(connectionCondition)
 				 {
+					//username and other fields should be disabled
 					view_.setUsername();
 					model_.setConnectionWithServer(view_.getUsername(), view_.getHostName(), number);
 				 }
@@ -76,6 +81,7 @@ public class Controller
 	{
 		 public void actionPerformed(ActionEvent e) 
 		 {
+			 
 			 model_.disconnect();
 			 view_.disableConnection();
 			 view_.clearUSerPanel();

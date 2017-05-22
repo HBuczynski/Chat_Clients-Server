@@ -15,8 +15,13 @@ import java.util.Vector;
  * @version 1.0
  */
 
+// Implemetation of serializable interface allows to redirect objects in stream of bytes 
+// into different process or computer via network.
 public class ChatMessage implements Serializable {
 
+	// SerialVersionUID  is used during deserialization to verify that the sender and receiver of a serialized object have loaded classes for that object 
+	// that are compatible with respect to serialization. If the receiver has loaded a class for the object that has a different serialVersionUID than 
+	// that of the corresponding sender's class, then deserialization will result in an  InvalidClassException.
 	protected static final long serialVersionUID = 1112122200L;
 
 	public static final int MESSAGE = 1;

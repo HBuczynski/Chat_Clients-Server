@@ -16,8 +16,8 @@ import client.model.*;
 public class Client
 {
 	private Model model_;
-	private ObjectInputStream streamInput;			// to read from the socket
-	private ObjectOutputStream streamOutput;		// to write on the socket
+	private ObjectInputStream streamInput;			// to read from the socket serializable packet
+	private ObjectOutputStream streamOutput;		// to write on the socket serializable packet
 	private Socket socket;
 	
 	public String username;
