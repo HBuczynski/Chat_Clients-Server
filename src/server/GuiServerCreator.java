@@ -60,7 +60,7 @@ public class GuiServerCreator extends JFrame
 		textArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			
 		scroll = new JScrollPane(textArea);
-		scroll.setBounds(1, 2, 479, 750);
+		scroll.setBounds(1, 2, 493, 762);
 		
 		panel.add(scroll);
 	}

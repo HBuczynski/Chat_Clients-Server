@@ -15,63 +15,89 @@ import client.view.View;
 
 public class Model 
 {	
-	private Client client_;
-	private View view_;
+	private Client client;
+	private View view;
 	
 	public Model()
 	{}
 	
-	//method provide connection with view
+	/**
+	 * method provide connection with view
+	 * */
 	public void setView(View view)
 	{
-		view_ = view;
+		this.view = view;
 	}
 	
-	//initialize connection with server after "Connect" button is pressed
+	/**
+	 * Initialize connection with server after "Connect" button is pressed.
+	 * @param userName
+	 * @param hostName
+	 * @param portNumber
+	 */
 	public void setConnectionWithServer(String userName, String hostName, int portNumber)
 	{
-		client_ = new Client(hostName, portNumber, view_.getUsername(), this);
-		client_.initialize();
+		client = new Client(hostName, portNumber, view.getUsername(), this);
+		client.initialize();
 	}
 	
-	//send message from user to server
-	//message object consists information about sender and recipient 
+	/**
+	 * Send message from user to server. 
+	 * Message object consists information about sender and recipient. 
+	 * @param message
+	 * @param dest
+	 */
 	public void redirectMessageToServer(String message, String dest)
 	{
-		client_.sendMessage(new ChatMessage(ChatMessage.MESSAGE, message, dest, view_.getUsername()));
+		client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, message, dest, view.getUsername()));
 	}
 	
-	//update users list which is situated on the left side of user interface
+	/**
+	 * Update users list which is situated on the left side of user interface.
+	 * @param users
+	 */
 	public void getUpdateUserList(Vector<String> users)
 	{
-		//the old list is removed
-		view_.removeUsersList();
-		view_.clearUSerPanel();
+		/**
+		 * the old list is removed
+		 */
+		view.removeUsersList();
+		view.clearUSerPanel();
 		for(int i=0; i < users.size(); i++)
 		{
-			view_.addUsersToList(users.get(i));
+			view.addUsersToList(users.get(i));
 		}
 	}
 	
-	//redirect message from server to GUI
-	//server send information about sender
+	/**
+	 * Redirect message from server to GUI.
+	 * Server send information about sender.
+	 * @param msg
+	 * @param user
+	 */
 	public void setMessageFromServer(String msg, String user)
 	{
-		view_.setAppendMessage(msg, user);
+		view.setAppendMessage(msg, user);
 	}
 	
-	//each user name should be unique
-    //server send information if some name exists in its database
+	/**
+	 * Each user name should be unique.
+	 * Server send information if some name exists in its database.
+	 * @param msg
+	 * @param user
+	 */
 	public void loggFailed(String msg, String user)
 	{
-		view_.setAppendMessage(msg, user);
-		view_.loggAgain();
+		view.setAppendMessage(msg, user);
+		view.loggAgain();
 	}
 	
-	//break connection with server
+	/**
+	 * Break connection with server.
+	 */
 	public void disconnect()
 	{
-		client_.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "log", "Server", view_.getUsername()));
-		client_.disconnect();
+		client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "log", "Server", view.getUsername()));
+		client.disconnect();
 	}	
 }

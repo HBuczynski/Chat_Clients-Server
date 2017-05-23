@@ -18,8 +18,8 @@ import javax.swing.*;
 
 public class View 
 {	
-	private Gui guiObjects_;
-	private GuiClientCreator guiCreator_;
+	private Gui guiObjects;
+	private GuiClientCreator guiCreator;
 	private String username;
 	private boolean connectionIsEstablished;
 	private Vector<String> usersVector;
@@ -34,42 +34,51 @@ public class View
 	
 	private void initializeVariables()
 	{
-		guiObjects_ = new Gui();
-		guiCreator_ = new GuiClientCreator(guiObjects_);
+		guiObjects = new Gui();
+		guiCreator = new GuiClientCreator(guiObjects);
 		usersVector = new Vector<String>();
 		
 		connectionIsEstablished = false;
 	}
 	
-	//initialize GUI and action listeners
+	/**
+	 * Initialize GUI and action listeners.
+	 */
 	private void initializeComponents()
 	{
-		guiCreator_.initialize();
+		guiCreator.initialize();
 		this.conversationButtonAcion();			
 	}
 	
-	//basic tab consists information from server
-	//this tab cannot be removed
+	/**
+	 * Basic tab consists information from server.
+	 */
 	private void createServerTab()
 	{
 		addNewConversationTab("Server");
 	}
 	
-	//if new message is come, the new tab is created and the view is switched into this component
+	/**
+	 * If new message is come, the new tab is created and the view is switched into this component.
+	 * @param userName
+	 */
 	private void addNewConversationTab(String userName)
 	{	
-		guiObjects_.conversationMap.put(userName, new JTextArea());
-		guiObjects_.conversationMap.get(userName).setLineWrap(true);	
-		guiObjects_.conversationMap.get(userName).setEditable(false);
-		guiObjects_.conversationMap.get(userName).setFont(new Font("Arial", Font.PLAIN, 16));
-		guiObjects_.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		guiObjects.conversationMap.put(userName, new JTextArea());
+		guiObjects.conversationMap.get(userName).setLineWrap(true);	
+		guiObjects.conversationMap.get(userName).setEditable(false);
+		guiObjects.conversationMap.get(userName).setFont(new Font("Arial", Font.PLAIN, 16));
+		guiObjects.conversationMap.get(userName).setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
-		guiObjects_.conversations.addTab(userName, new JScrollPane(guiObjects_.conversationMap.get(userName)));
-		int index = guiObjects_.conversations.indexOfTab(userName);
-		guiObjects_.conversations.setSelectedIndex(index);
+		guiObjects.conversations.addTab(userName, new JScrollPane(guiObjects.conversationMap.get(userName)));
+		int index = guiObjects.conversations.indexOfTab(userName);
+		guiObjects.conversations.setSelectedIndex(index);
 	}
 	
-	//Method adds new users to vector
+	/**
+	 * Method adds new users to vector.
+	 * @param name
+	 */
 	public void addUsersToList(String name)
 	{
 		if(!name.equals(username))
@@ -79,7 +88,10 @@ public class View
 		}
 	}
 	
-	//Specific user is removed from users list
+	/**
+	 * Specific user is removed from users list.
+	 * @param name
+	 */
 	public void removeUserFromList(String name)
 	{
 		int index = usersVector.indexOf(name);
@@ -94,18 +106,20 @@ public class View
 	
 	public void clearUSerPanel()
 	{
-		guiObjects_.usersPanel.removeAll();
-		guiObjects_.usersPanel.revalidate();
-		guiObjects_.usersPanel.repaint();
+		guiObjects.usersPanel.removeAll();
+		guiObjects.usersPanel.revalidate();
+		guiObjects.usersPanel.repaint();
 	}
 	
-	//Users are added to panel situated on the left side of UI
+	/**
+	 * Users are added to panel situated on the left side of UI.
+	 */
 	private void addUsersToPanel()
 	{
 		MouseAdapterMod mouseAdapter = new MouseAdapterMod();
 		
-		guiObjects_.usersPanel.removeAll();
-		guiObjects_.usersPanel.revalidate();
+		guiObjects.usersPanel.removeAll();
+		guiObjects.usersPanel.revalidate();
 		
 		for(int i=0; i < usersVector.size(); ++i)
 		{
@@ -116,39 +130,45 @@ public class View
 			newUser.addMouseListener(mouseAdapter);
 			newUser.setFont(new Font("Arial", Font.PLAIN, 20));
 			
-			guiObjects_.usersPanel.add(newUser);
+			guiObjects.usersPanel.add(newUser);
 		}
-		guiObjects_.usersPanel.repaint();
+		guiObjects.usersPanel.repaint();
 	}
 	
-	//New message is added to conversation
+	/**
+	 * New message is added to conversation.
+	 * @param message
+	 * @param user
+	 */
 	public void setAppendMessage(String message, String user)
 	{
 		Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        int index = guiObjects_.conversations.getSelectedIndex();
-		String name = new String(guiObjects_.conversations.getTitleAt(index));
+        int index = guiObjects.conversations.getSelectedIndex();
+		String name = new String(guiObjects.conversations.getTitleAt(index));
        
-        //check if the tab exists
-        if((guiObjects_.conversationMap.get(user)==null) && !user.equals(username))
+        /**
+         * Check if the tab exists.
+         */
+        if((guiObjects.conversationMap.get(user)==null) && !user.equals(username))
         	addNewConversationTab(user);
                
 		if(connectionIsEstablished)
 		{
 			if(user.equals(username))
 			{
-				guiObjects_.conversationMap.get(name).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
-				guiObjects_.conversationMap.get(name).append(message + "\n");
+				guiObjects.conversationMap.get(name).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
+				guiObjects.conversationMap.get(name).append(message + "\n");
 			}			
 			else
 			{
-				guiObjects_.conversationMap.get(user).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
-				guiObjects_.conversationMap.get(user).append(message + "\n");
+				guiObjects.conversationMap.get(user).append(" >> "  + sdf.format(cal.getTime()) + "  #" + user  + "\n");
+				guiObjects.conversationMap.get(user).append(message + "\n");
 			}
 		}
-		else if (guiObjects_.conversations.getSelectedIndex() == 0)
+		else if (guiObjects.conversations.getSelectedIndex() == 0)
 		{
-			guiObjects_.conversationMap.get("Server").append(" >> " + " Oh my dear, you cannot write with server !" + "\n");
+			guiObjects.conversationMap.get("Server").append(" >> " + " Oh my dear, you cannot write with server !" + "\n");
 		}
 		else
 		{
@@ -158,86 +178,86 @@ public class View
 	
 	public void setTextMessage(String message)
 	{
-		guiObjects_.conversationMap.get("Server").setText(message);
+		guiObjects.conversationMap.get("Server").setText(message);
 	}
 	
 	public String getMessage()
 	{
-		return guiObjects_.sendArea.getText();
+		return guiObjects.sendArea.getText();
 	}
 	
 	public void clearUserArea()
 	{
-		guiObjects_.sendArea.setText("");
+		guiObjects.sendArea.setText("");
 	}
 	
 	public String getUsername()
 	{
-		return guiObjects_.usernameField.getText();
+		return guiObjects.usernameField.getText();
 	}
 	
 	public String getHostName()
 	{
-		return guiObjects_.hostField.getText();
+		return guiObjects.hostField.getText();
 	}
 	
 	public String getPortName()
 	{
-		return guiObjects_.portField.getText();
+		return guiObjects.portField.getText();
 	}
 	
 	public String destinationUser()
 	{
-		int index = guiObjects_.conversations.getSelectedIndex();
-		String name = new String(guiObjects_.conversations.getTitleAt(index));
+		int index = guiObjects.conversations.getSelectedIndex();
+		String name = new String(guiObjects.conversations.getTitleAt(index));
 		return name;
 	}
 	
 	public void setUsername()
 	{
 		username = getUsername();
-		guiObjects_.usernameField.setEditable(false);
-		guiObjects_.hostField.setEditable(false);
-		guiObjects_.portField.setEditable(false);
+		guiObjects.usernameField.setEditable(false);
+		guiObjects.hostField.setEditable(false);
+		guiObjects.portField.setEditable(false);
 		connectionIsEstablished = true;
-		guiObjects_.disconnect.setEnabled(true);
+		guiObjects.disconnect.setEnabled(true);
 	}
 	
 	public void disableConnection()
 	{
-		guiObjects_.usernameField.setEditable(true);
+		guiObjects.usernameField.setEditable(true);
 		connectionIsEstablished = false;
-		guiObjects_.disconnect.setEnabled(true);
+		guiObjects.disconnect.setEnabled(true);
 	}
 	
 	public void loggAgain()
 	{
-		guiObjects_.usernameField.setEditable(true);
-		guiObjects_.hostField.setEditable(true);
-		guiObjects_.portField.setEditable(true);
-		guiObjects_.usernameField.setText("");
+		guiObjects.usernameField.setEditable(true);
+		guiObjects.hostField.setEditable(true);
+		guiObjects.portField.setEditable(true);
+		guiObjects.usernameField.setText("");
 		
-		guiObjects_.disconnect.setEnabled(false);
+		guiObjects.disconnect.setEnabled(false);
 	}
 				
 	public void showMainWindow()
 	{
-		guiObjects_.mainFrame.setVisible(true);
+		guiObjects.mainFrame.setVisible(true);
 	}
 	
 	private void conversationButtonAcion()
 	{
-		guiObjects_.endConversation.addActionListener(new ActionListener()
+		guiObjects.endConversation.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if(guiObjects_.conversations.getSelectedIndex() != guiObjects_.conversations.indexOfTab("Server"))
+				if(guiObjects.conversations.getSelectedIndex() != guiObjects.conversations.indexOfTab("Server"))
 				{			
-					int index = guiObjects_.conversations.getSelectedIndex();
-					String name = new String(guiObjects_.conversations.getTitleAt(index));
+					int index = guiObjects.conversations.getSelectedIndex();
+					String name = new String(guiObjects.conversations.getTitleAt(index));
 					
-					guiObjects_.conversationMap.remove(name);
-					guiObjects_.conversations.remove(guiObjects_.conversations.getSelectedIndex());
+					guiObjects.conversationMap.remove(name);
+					guiObjects.conversations.remove(guiObjects.conversations.getSelectedIndex());
 				}
 			}
 		});
@@ -245,17 +265,17 @@ public class View
 	
 	public void sendButtonListener(ActionListener listenForSendButton)
 	{
-		guiObjects_.send.addActionListener(listenForSendButton);
+		guiObjects.send.addActionListener(listenForSendButton);
 	}
 	
 	public void connectButtonListener(ActionListener act)
 	{
-		guiObjects_.connect.addActionListener(act);
+		guiObjects.connect.addActionListener(act);
 	}
 	
 	public void disconnectButtonListener(ActionListener act)
 	{
-		guiObjects_.disconnect.addActionListener(act);
+		guiObjects.disconnect.addActionListener(act);
 	}
 	
 	private class MouseAdapterMod extends MouseAdapter 
@@ -264,7 +284,7 @@ public class View
 		{	
 	       JLabel label = (JLabel)e.getSource();
 	       
-	       if(!guiObjects_.conversationMap.containsKey(label.getName()))
+	       if(!guiObjects.conversationMap.containsKey(label.getName()))
 	       {
 	    	   	addNewConversationTab(label.getName());
 	       }

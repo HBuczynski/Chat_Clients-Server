@@ -15,9 +15,16 @@ import client.model.*;
  */
 public class Client
 {
-	private Model model_;
-	private ObjectInputStream streamInput;			// to read from the socket serializable packet
-	private ObjectOutputStream streamOutput;		// to write on the socket serializable packet
+	private Model model;
+	
+	/**
+	 *  To read from the socket serializable packet.
+	 */
+	private ObjectInputStream streamInput;	
+	/**
+	 *  To write on the socket serializable packet.
+	 */
+	private ObjectOutputStream streamOutput;		
 	private Socket socket;
 	
 	public String username;
@@ -29,40 +36,48 @@ public class Client
 		this.server = server;
 		this.port = port;
 		this.username = username;
-		model_= model;
+		this.model= model;
 	}
 	
 	public void initialize()
 	{
-		// try to connect to the server
+		/** 
+		 * Try to connect to the server.
+		 */
 		try {
 			socket = new Socket(server, port);
 		} 
 		catch(Exception ec) {
-			model_.setMessageFromServer(("Error connectiong to server:" + ec), "Server");
+			model.setMessageFromServer(("Error connectiong to server:" + ec), "Server");
 		}
 		
-		// Creating both Data Stream
+		/**
+		 *  Creating both Data Stream.
+		 */
 		try
 		{
 			streamInput  = new ObjectInputStream(socket.getInputStream());
 			streamOutput = new ObjectOutputStream(socket.getOutputStream());
 		}
 		catch (IOException eIO) {
-			model_.setMessageFromServer(("Exception creating new Input/output Streams: " + eIO), "Server");
+			model.setMessageFromServer(("Exception creating new Input/output Streams: " + eIO), "Server");
 		}
 
-		// creates the Thread to listen from the server 
+		/**
+		 *  Creates the Thread to listen from the server.
+		 */
 		new ListenFromServer().start();
 		
-		// Send our username to the server this is the only message that we
-		// will send as a String. All other messages will be ChatMessage objects
+		/**
+		 *  Send our username to the server this is the only message that we
+		 *  will send as a String. All other messages will be ChatMessage objects.
+		 */
 		try
 		{
 			streamOutput.writeObject(username);
 		}
 		catch (IOException eIO) {
-			model_.setMessageFromServer(("Exception doing login : " + eIO), "Server");
+			model.setMessageFromServer(("Exception doing login : " + eIO), "Server");
 			disconnect();
 		}
 	}
@@ -107,19 +122,19 @@ public class Client
 		
 					if(msg.getType() == 1)
 					{
-						model_.setMessageFromServer(msg.getMessage(), msg.getOrigin()); //TO DO user !!!!
+						model.setMessageFromServer(msg.getMessage(), msg.getOrigin()); //TO DO user !!!!
 					}
 					else if(msg.getType() == 3)
 					{
-						model_.getUpdateUserList(msg.getUsers());
+						model.getUpdateUserList(msg.getUsers());
 					}
 					else if(msg.getType() == 2)
 					{
-						model_.loggFailed(msg.getMessage(), msg.getOrigin());
+						model.loggFailed(msg.getMessage(), msg.getOrigin());
 					}
 				}
 				catch(IOException e) {
-					model_.setMessageFromServer(("Server has close the connection: " + e), "Server");
+					model.setMessageFromServer(("Server has close the connection: " + e), "Server");
 					break;
 				}
 				catch(ClassNotFoundException e2) {}

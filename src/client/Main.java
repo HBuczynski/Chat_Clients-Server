@@ -13,8 +13,8 @@ import client.controller.*;
 public class Main {
 
 	public static void main(String[] args) {
-		Model model_ = new Model();
-		View view_ = new View();
-		Controller controller_ = new Controller(model_, view_);		
+		Model model = new Model();
+		View view = new View();
+		Controller controller = new Controller(model, view);		
 	}
 }
